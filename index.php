@@ -14,17 +14,38 @@
 
 <table>
 
-    <tr>  <td>ID</td> <td>Email</td> <td>Tel</td> <td>Name</td> <td>Title</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td>  </tr>
+    <tr> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Title</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
     <?php
-    $statement = $db->query('SELECT * FROM annons');
+  
+	if(isset($_GET['email']))
+{
+	$continent = $_GET['email'];
+	$statement  = $db->prepare('SELECT * FROM annons WHERE Email=:email ORDER BY date DESC');
+	$statement ->bindParam(':continent', $continent);
+	$statement ->execute();
+}else
+{
+	$statement  = $db->query('SELECT * FROM annons ORDER BY date Desc');
+}
+
+	
+	
     while($row = $statement->fetch(PDO::FETCH_ASSOC)){
         echo ("<tr>");
-        foreach ($row as $item){
-            echo ("<td>$item</td>");
-        }
+	     echo '<td>'.$row['email'].'</td>';
+	    echo '<td>'.$row['telnr'].'</td>';
+	    echo '<td>'.$row['name'].'</td>';
+	    echo '<td>'.$row['title'].'</td>';
+	    echo '<td>'.$row['category'].'</td>';
+	    echo '<td>'.$row['description'].'</td>';
+	    echo '<td>'.$row['picture'].'</td>';
+	    echo '<td>'.$row['price'].'</td>';
+         echo '<td>'.$row['date'].'</td>';
 
 
     }
+	
+	
     echo ("</tr>");
     ?>
 </table>
