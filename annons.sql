@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Värd: localhost
--- Tid vid skapande: 09 okt 2017 kl 08:57
+-- Tid vid skapande: 09 okt 2017 kl 09:16
 -- Serverversion: 10.1.19-MariaDB
 -- PHP-version: 7.0.13
 
@@ -25,14 +25,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `test`
+-- Tabellstruktur `annons`
 --
 
-CREATE TABLE `test` (
+CREATE TABLE `annons` (
   `ID` int(11) NOT NULL,
-  `Hej` int(11) NOT NULL,
-  `tmp` int(11) NOT NULL,
-  `da` int(11) NOT NULL
+  `email` text NOT NULL,
+  `telnr` text NOT NULL,
+  `name` text NOT NULL,
+  `title` text NOT NULL,
+  `category` text,
+  `description` text,
+  `picture` text,
+  `price` decimal(10,0) NOT NULL,
+  `date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -40,9 +46,9 @@ CREATE TABLE `test` (
 --
 
 --
--- Index för tabell `test`
+-- Index för tabell `annons`
 --
-ALTER TABLE `test`
+ALTER TABLE `annons`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -50,9 +56,9 @@ ALTER TABLE `test`
 --
 
 --
--- AUTO_INCREMENT för tabell `test`
+-- AUTO_INCREMENT för tabell `annons`
 --
-ALTER TABLE `test`
+ALTER TABLE `annons`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
