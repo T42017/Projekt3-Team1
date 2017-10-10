@@ -89,7 +89,7 @@ function GetPermaLink($skip = 0)
     $statement ->execute();
 	
     while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-        $id = "annons/?id=".$row['ID'];
+        $id = "annons.php/?id=".$row['ID'];
         echo "<tr>";
         echo "<td><a href='{$id}'>{$row['title']}</a></td>";
         echo "<td>{$row['email']}</td>";
@@ -106,4 +106,5 @@ function GetPermaLink($skip = 0)
     ?>
 </table>
 
+<a href="add.php">Add Item</a>
 </body>

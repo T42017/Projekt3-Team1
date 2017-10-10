@@ -30,9 +30,7 @@ if(isset($_GET['id']))
 {
     $id = $_GET['id'];
 }
-else {
-    echo ddd;
-}
+
 ?>
 <body>
 <table>
@@ -41,7 +39,7 @@ else {
 
 <?php
 
-$statement  = $db->prepare("SELECT * FROM annons WHERE ID LIKE '%$id%'");
+$statement  = $db->prepare("SELECT * FROM annons WHERE ID = $id");
 $statement ->bindParam(':email', $email);
 $statement ->execute();
 
