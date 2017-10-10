@@ -14,7 +14,7 @@
 
 <table>
 
-    <tr> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Title</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
+    <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
     <?php
 
     if(isset($_GET['email']))
@@ -42,10 +42,10 @@
 	
     while($row = $statement->fetch(PDO::FETCH_ASSOC)){
         echo ("<tr>");
+	   echo '<td>'.$row['title'].'</td>';
         echo "<td>{$row['email']}</td>";
         echo '<td>'.$row['telnr'].'</td>';
         echo '<td>'.$row['name'].'</td>';
-        echo '<td>'.$row['title'].'</td>';
         echo '<td>'.$row['category'].'</td>';
         echo '<td>'.$row['description'].'</td>';
         echo '<td>'.$row['picture'].'</td>';
