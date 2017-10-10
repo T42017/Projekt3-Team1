@@ -11,28 +11,26 @@
 </head>
 
 <body>
-
+<form action="index.PHP" method="GET">
+    <input type="text" name="query" />
+    <input type="submit" value="Search" />
+</form>
 <table>
 
     <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
     <?php
-
+    
+	
+	
     if(isset($_GET['email']))
     {
         $email = $_GET['email'];
 
     }
+	//else if($ null){}
     else
     {
         $email = null;
-    }if(isset($_GET['name']))
-    {
-        $name = $_GET['name'];
-
-    }
-    else
-    {
-        $name = null;
     }
     if(isset($_GET['category']))
     {
@@ -43,8 +41,18 @@
     {
         $category = null;
     }
+	 if(isset($_GET['query']))
+    {
+        $query = $_GET['query'];
 
-    $statement  = $db->prepare("SELECT * FROM annons WHERE Email LIKE '%$email%' AND Name Like '%$name%' AND Category LIKE '%$category%' ORDER BY date DESC");
+    }
+    else
+    {
+        $query = null;
+    }
+
+
+    $statement  = $db->prepare("SELECT * FROM annons WHERE Email LIKE '%$email%' AND Category LIKE '%$category%' AND (title LIKE '%$query%' OR name LIKE '%$query%' OR description LIKE '%$query%')  ORDER BY date DESC");
     $statement ->bindParam(':email', $email);
     $statement ->execute();
 	
@@ -54,7 +62,7 @@
 	   echo '<td>'.$row['title'].'</td>';
         echo "<td><a href='?email={$row['email']}'>{$row['email']}</td>";
         echo '<td>'.$row['telnr'].'</td>';
-        echo "<td><a href='?name={$row['name']}'>{$row['name']}</td>";
+        echo "<td>{$row['name']}</td>";
         echo "<td><a href='?category={$row['category']}'>{$row['category']}</td>";
         echo '<td>'.$row['description'].'</td>';
         echo '<td>'.$row['picture'].'</td>';
