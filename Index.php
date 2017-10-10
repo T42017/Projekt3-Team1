@@ -34,8 +34,17 @@
     {
         $name = null;
     }
+    if(isset($_GET['category']))
+    {
+        $category = $_GET['category'];
 
-    $statement  = $db->prepare("SELECT * FROM annons WHERE Email LIKE '%$email%' AND Name Like '%$name%' ORDER BY date DESC");
+    }
+    else
+    {
+        $category = null;
+    }
+
+    $statement  = $db->prepare("SELECT * FROM annons WHERE Email LIKE '%$email%' AND Name Like '%$name%' AND Category LIKE '%$category%' ORDER BY date DESC");
     $statement ->bindParam(':email', $email);
     $statement ->execute();
 	
@@ -43,10 +52,10 @@
     while($row = $statement->fetch(PDO::FETCH_ASSOC)){
         echo ("<tr>");
 	   echo '<td>'.$row['title'].'</td>';
-        echo "<td>{$row['email']}</td>";
+        echo "<td><a href='?email={$row['email']}'>{$row['email']}</td>";
         echo '<td>'.$row['telnr'].'</td>';
-        echo '<td>'.$row['name'].'</td>';
-        echo '<td>'.$row['category'].'</td>';
+        echo "<td><a href='?name={$row['name']}'>{$row['name']}</td>";
+        echo "<td><a href='?category={$row['category']}'>{$row['category']}</td>";
         echo '<td>'.$row['description'].'</td>';
         echo '<td>'.$row['picture'].'</td>';
         echo '<td>'.$row['price'].'</td>';
