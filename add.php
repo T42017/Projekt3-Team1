@@ -17,7 +17,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     <label for="phone">Phone</label>
     <input name ="phone" type="text">
 
-    <label for="name">Name</label>
+    <label for="name">Your name</label>
     <input name="name" type="text">
 
     <label for="title">Title of product</label>
@@ -25,10 +25,12 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     <label for="category">Category</label>
     <select name="category">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value="Fordon">Fordon</option>
+        <option value="För Hemmet">För Hemmet</option>
+        <option value="Personligt">Personligt</option>
+        <option value="Elektronik">Elektronik</option>
+        <option value="Fritid Och Hobby">Fritid Och Hobby</option>
+        <option value="Affärsverksamhet">Affärsverksamhet</option>
     </select>
 
     <label for="desc">Description</label>

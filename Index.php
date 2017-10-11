@@ -8,151 +8,139 @@
 
 <?php
 
-if(empty($_GET['email'])){
-    $email=null;}
-else{
-	$email= $_GET['email'];
-}
-if(empty($_GET['category'])){
-	$category = null;
-}
-else{
-	$category = $_GET['category'];
-}
-
-
-function GetPermaLink($skip = 0)
-{
-    $path = ltrim($_SERVER['REQUEST_URI'], '/');
-    $elements = explode('/', $path);
-
-    if(empty($elements[0]))
-    {
-        return null;
+    if(empty($_GET['email'])){
+        $email=null;}
+    else{
+        $email= $_GET['email'];
     }
-    else
-    {
-        for($i=0; $i< $skip;$i++)
-            array_shift($elements);
-
-        $req = array_shift($elements);
-        return strtolower($req);
+    if(empty($_GET['category'])){
+        $category = null;
     }
-}
+    else{
+        $category = $_GET['category'];
+    }
+
+    // permalinks
+    function GetPermaLink($skip = 0)
+    {
+        $path = ltrim($_SERVER['REQUEST_URI'], '/');
+        $elements = explode('/', $path);
+
+        if(empty($elements[0]))
+        {
+            return null;
+        }
+        else
+        {
+            for($i=0; $i< $skip;$i++)
+                array_shift($elements);
+
+            $req = array_shift($elements);
+            return strtolower($req);
+        }
+    }
 
 ?>
 
-<head>
-
-
-</head>
 <body>
-<div id="main">
-    <nav class="navbar">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#"><h1>Blocket</h1></a>
+    <div id="main">
+        <nav class="navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><h1>Blocket</h1></a>
+                </div>
+                <ul class="nav">
+                    <li class="active"><a href="#"> Home </a></li>
+                    <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Page 2</a></li>
+                    <li><a href="add.php">Add Item</a></li>
+                </ul>
+
+            </div>
+        </nav>
+
+            <form class="search" action="index.PHP" method="GET">
+                <input class="searchTerm" type="search" name="query"/>
+                <select id="mySelect" name="category">
+                    <option value="Fordon">Fordon</option>
+                    <option value="För Hemmet">För Hemmet</option>
+                    <option value="Personligt">Personligt</option>
+                    <option value="Elektronik">Elektronik</option>
+                    <option value="Fritid Och Hobby">Fritid Och Hobby</option>
+                    <option value="Affärsverksamhet">Affärsverksamhet</option>
+                </select>
+                <input class="searchButton" type="submit">
+                <input type="hidden" name="email" value="<?php echo $email?>">
+            </form>
+
+        <div id="content">
+            <div class="well">
+                <table class="table">
+                    <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
+
+                    <?php
+
+                    if(isset($_GET['query']))
+                    {
+                        $query = $_GET['query'];
+                    }
+                    else
+                    {
+                        $query = null;
+                    }
+
+
+                    if(isset($_GET['title']))
+                    {
+                        $title = $_GET['title'];
+
+                    }
+                    else
+                    {
+                        $title = null;
+                    }
+
+                    if(isset($_GET['category']))
+                    {
+                        $category = $_GET['category'];
+
+                    }
+                    else
+                    {
+                        $category = null;
+                    }
+
+                    $statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%' OR description LIKE '%$query%')  
+                                                          ORDER BY date DESC");
+                    $statement ->bindParam(':email', $email);
+                    $statement ->execute();
+
+                        while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                            $id = "annons.php/?id=".$row['ID'];
+                            echo "<tr>";
+                            echo "<td><a href='{$id}'>{$row['title']}</a></td>";
+                            echo "<td><a href='?email={$row['email']}'>{$row['email']}</td>";
+                            echo '<td>'.$row['telnr'].'</td>';
+                            echo "<td>{$row['name']}</td>";
+                            echo "<td>{$row['category']}</td>";
+                            echo '<td>'.$row['description'].'</td>';
+                            echo '<td>'.$row['picture'].'</td>';
+                            echo '<td>'.$row['price'].'</td>';
+                            echo '<td>'.$row['date'].'</td>';
+                        }
+
+                        echo ("</tr>");
+                    ?>
+                </table>
+            </div>
+
+            <div class="well">
+            <footer> footer</footer>
+            </div>
+
         </div>
-        <ul class="nav">
-          <li class="active"><a href="#"> Home </a></li>
-          <li><a href="#">Page 1</a></li>
-          <li><a href="#">Page 2</a></li>
-          <li><a href="#">Page 3</a></li>
-        </ul>
-
-
-<form action="index.PHP" method="GET">
-    <input type="search" name="query"/>
-	<select id="mySelect" name="category">
-	<option value="Fordon">Fordon</option>
-	<option value="För Hemmet">För Hemmet</option>
-	<option value="Personligt">Personligt</option>
-	<option value="Elektronik">Elektronik</option>
-	<option value="Fritid Och Hobby">Fritid Och Hobby</option>
-	<option value="Affärsverksamhet">Affärsverksamhet</option>
-	</select>
-	<input type="hidden" name="email" value="<?php echo $email?>">
-	
-      </div>
-</form>
-    </nav>
-    <form class="search" action="index.php">
-            <input class="searchTerm" placeholder="Enter your search term ..."><input class="searchButton" type="submit">
-    </form> 
-
-    <div id="content">
-        <div class="well">  
-            <table class="table">
-                <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
-                
-    <?php
-	
-	 if(isset($_GET['query']))
-
-    if(isset($_GET['name']))
-                {
-        $query = $_GET['query'];
-                }
-                else
-                {
-        $query = null;
-                }
-    $statement  = $db->prepare("SELECT * FROM annons WHERE Email LIKE '%$email%' AND Category LIKE '%$category%' AND (title LIKE '%$query%' OR name LIKE '%$query%' OR description LIKE '%$query%')  ORDER BY date DESC");
-    if(isset($_GET['title']))
-    {
-        $title = $_GET['title'];
-
-    }
-    else
-    {
-        $title = null;
-    }
-
-    if(isset($_GET['category']))
-    {
-        $category = $_GET['category'];
-
-    }
-    else
-    {
-        $category = null;
-    }
-
-    $statement  = $db->prepare("SELECT * FROM annons WHERE Email LIKE '%$email%' 
-                                AND Name LIKE '%$name%' 
-                                AND Title LIKE '%$title%'
-                                AND Category LIKE '%$category%'                              
-                                ORDER BY date DESC");
-                $statement ->bindParam(':email', $email);
-                $statement ->execute();
-            	
-	
-                while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-        $id = "annons.php/?id=".$row['ID'];
-        echo "<tr>";
-        echo "<td><a href='{$id}'>{$row['title']}</a></td>";
-	   echo '<td>'.$row['title'].'</td>';
-        echo "<td><a href='?email={$row['email']}'>{$row['email']}</td>";
-        echo '<td>'.$row['telnr'].'</td>';
-        echo "<td>{$row['name']}</td>";
-        echo "<td>{$row['category']}</td>";
-                    echo '<td>'.$row['description'].'</td>';
-                    echo '<td>'.$row['picture'].'</td>';
-                    echo '<td>'.$row['price'].'</td>';
-                    echo '<td>'.$row['date'].'</td>';
-                }
-
-                echo ("</tr>");
-                ?>
-            </table>
-        </div>
-        <div class="well">
-        <footer> footer</footer>
-        </div>
-    </div>	
-</div>
-
-
-
-<a href="add.php">Add Item</a>
+    </div>
 </body>
