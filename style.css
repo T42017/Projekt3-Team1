@@ -5,7 +5,7 @@
 }
 
 #content{
-	margin-top:3%;
+	margin-top:10%;
 }
 
 .well {
@@ -24,8 +24,10 @@
 }
 
 .search {
-  width: 100%;
+  width: 50%;
   position: relative;
+  margin-left: 20%;
+  margin-top: -4%;
 }
 .search:before {
   position: absolute;
@@ -35,7 +37,7 @@
   height: 40px;
   line-height: 40px;
   font-family: 'FontAwesome';
-  content:	'\002315';
+  content:'\002315';
   background: #8FC357;
   text-align: center;
   color: #fff;
@@ -65,7 +67,4 @@
   height: 40px;
   opacity: 0;
   cursor: pointer;
-
-  
-
 }

@@ -13,10 +13,12 @@
 </head>
 <body>
 <div id="main">
+    
+       
     <nav class="navbar">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#"><h1>Blocket</h1></a>
+          <a class="navbar-brand" href="#"><h1 >LOGO/TITEL</h1></a>
         </div>
         <ul class="nav">
           <li class="active"><a href="#"> Home </a></li>
@@ -29,7 +31,7 @@
     </nav>
     <form class="search" action="index.php">
             <input class="searchTerm" placeholder="Enter your search term ..."><input class="searchButton" type="submit">
-    </form> 
+    </form>
 
     <div id="content">
         <div class="well">  
