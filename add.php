@@ -10,37 +10,119 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 
-<form action="" method="post">
-    <label for="email">Email</label>
-    <input name ="email" type="text" >
+<body>
+    <div id = "main">
 
-    <label for="phone">Phone</label>
-    <input name ="phone" type="text">
+        <nav class="navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><h1>Plocket</h1></a>
+                </div>
+                <ul class="nav">
+                    <li class="active"><a href="#"> Home </a></li>
+                    <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Page 2</a></li>
+                    <li><a href="add.php">Add Item</a></li>
+                </ul>
+            </div>
+        </nav>
 
-    <label for="name">Your name</label>
-    <input name="name" type="text">
+        <div id="content" class="well clearfix">
+            <form action="" method="post">
+                 <div class ="float-left addForm container">
 
-    <label for="title">Title of product</label>
-    <input name="title" type="text">
+                     <div class="row">
+                         <div class="col">
+                             <label for="email">Email</label>
 
-    <label for="category">Category</label>
-    <select name="category">
-        <option value="Fordon">Fordon</option>
-        <option value="För Hemmet">För Hemmet</option>
-        <option value="Personligt">Personligt</option>
-        <option value="Elektronik">Elektronik</option>
-        <option value="Fritid Och Hobby">Fritid Och Hobby</option>
-        <option value="Affärsverksamhet">Affärsverksamhet</option>
-    </select>
+                         </div>
+                         <div class="col">
+                             <label for="phone">Phone</label>
 
-    <label for="desc">Description</label>
-    <input name="desc" type="text">
+                         </div>
+                     </div>
 
-    <label for="price">Price</label>
-    <input name="price" type="text">
+                     <div class="row">
+                         <div class="col">
+                            <input name ="email" type="text" >
+                         </div>
+                         <div class="col">
+                            <input name ="phone" type="text">
+                         </div>
+                     </div>
 
-    <input type="submit">
-</form>
+                     <div class="row">
+                         <div class="col">
+                             <label for="name">Your name</label>
+
+                         </div>
+                         <div class="col">
+                             <label for="title">Title of product</label>
+
+                         </div>
+                     </div>
+                     <div class="row">
+                         <div class="col">
+                            <input name="name" type="text">
+                         </div>
+                         <div class="col">
+                            <input name="title" type="text">
+                         </div>
+                     </div>
+
+                     <div class="row">
+                         <div class="col">
+                             <label for="desc">Description</label>
+                         </div>
+                         <div class="col">
+                             <label for="price">Price</label>
+                         </div>
+                     </div>
+
+                     <div class="row">
+                         <div class="col">
+                            <input name="desc" type="text">
+                         </div>
+                         <div class="col">
+                            <input name="price" type="text">
+                         </div>
+
+                     </div>
+
+                     <div class="row">
+                         <div class="col">
+
+                             <label for="category">Category</label>
+
+
+                         </div>
+                     </div>
+
+                     <div class="row">
+                         <div class="col">
+                             <select name="category">
+                                 <option value="Fordon">Fordon</option>
+                                 <option value="För Hemmet">För Hemmet</option>
+                                 <option value="Personligt">Personligt</option>
+                                 <option value="Elektronik">Elektronik</option>
+                                 <option value="Fritid Och Hobby">Fritid Och Hobby</option>
+                                 <option value="Affärsverksamhet">Affärsverksamhet</option>
+                             </select>
+                         </div>
+                     </div>
+
+
+                    </div>
+
+                <div class ="float-right">
+                    <input type="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+
 
 
 <?php

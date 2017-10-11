@@ -47,7 +47,7 @@
         <nav class="navbar">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#"><h1>Blocket</h1></a>
+                    <a class="navbar-brand" href="#"><h1>Plocket</h1></a>
                 </div>
                 <ul class="nav">
                     <li class="active"><a href="#"> Home </a></li>
@@ -59,19 +59,21 @@
             </div>
         </nav>
 
-            <form class="search" action="index.PHP" method="GET">
-                <input class="searchTerm" type="search" name="query"/>
-                <select id="mySelect" name="category">
-                    <option value="Fordon">Fordon</option>
-                    <option value="För Hemmet">För Hemmet</option>
-                    <option value="Personligt">Personligt</option>
-                    <option value="Elektronik">Elektronik</option>
-                    <option value="Fritid Och Hobby">Fritid Och Hobby</option>
-                    <option value="Affärsverksamhet">Affärsverksamhet</option>
-                </select>
-                <input class="searchButton" type="submit">
-                <input type="hidden" name="email" value="<?php echo $email?>">
-            </form>
+
+        <form class="search" action="index.PHP" method="GET">
+            <input class="searchTerm" type="search" name="query"/>
+            <select id="mySelect" name="category">
+                <option value="Fordon">Fordon</option>
+                <option value="För Hemmet">För Hemmet</option>
+                <option value="Personligt">Personligt</option>
+                <option value="Elektronik">Elektronik</option>
+                <option value="Fritid Och Hobby">Fritid Och Hobby</option>
+                <option value="Affärsverksamhet">Affärsverksamhet</option>
+            </select>
+            <input class="searchButton" type="submit">
+            <input type="hidden" name="email" value="<?php echo $email?>">
+        </form>
+
 
         <div id="content">
             <div class="well">
