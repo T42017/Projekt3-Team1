@@ -56,6 +56,7 @@ function GetPermaLink($skip = 0)
     <div id="content">
         <div class="well">  
             <table class="table">
+                <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
                 <?php
                 
                 if(isset($_GET['email']))
