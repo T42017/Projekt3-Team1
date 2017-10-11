@@ -12,14 +12,22 @@
 
 <body>
 <form action="index.PHP" method="GET">
-    <input type="text" name="query" />
-    <input type="submit" value="Search" />
+    <input type="search" name="query" />
+	<select id="mySelect>
+	<option value="Fordon">Fordon</option>
+	<option value="För Hemmet">För Hemmet</option>
+	<option value="Personligt">Personligt</option>
+	<option value="Elektronik">Elektronik</option>
+	<option value="Fritid Och Hobby">Fritid Och Hobby</option>
+	<option value="Affärsverksamhet">Affärsverksamhet</option>
+	</select>
 </form>
 <table>
 
     <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
     <?php
     
+	
 	
 	
     if(isset($_GET['email']))
@@ -32,7 +40,7 @@
     {
         $email = null;
     }
-    if(isset($_GET['category']))
+    if(isset($_GET["category"]))
     {
         $category = $_GET['category'];
 
@@ -43,6 +51,7 @@
     }
 	 if(isset($_GET['query']))
     {
+		$category= $_GET['mySelect'];
         $query = $_GET['query'];
 
     }
@@ -51,10 +60,10 @@
         $query = null;
     }
 
-
-    $statement  = $db->prepare("SELECT * FROM annons WHERE Email LIKE '%$email%' AND Category LIKE '%$category%' AND (title LIKE '%$query%' OR name LIKE '%$query%' OR description LIKE '%$query%')  ORDER BY date DESC");
+    $statement  = $db->prepare("SELECT * FROM annons WHERE Category LIKE '%$category%' AND (title LIKE '%$query%' OR name LIKE '%$query%' OR description LIKE '%$query%')  ORDER BY date DESC");
     $statement ->bindParam(':email', $email);
     $statement ->execute();
+	
 	
 	
     while($row = $statement->fetch(PDO::FETCH_ASSOC)){
