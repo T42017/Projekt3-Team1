@@ -8,6 +8,19 @@
 
 <?php
 
+if(empty($_GET['email'])){
+    $email=null;}
+else{
+	$email= $_GET['email'];
+}
+if(empty($_GET['category'])){
+	$category = null;
+}
+else{
+	$category = $_GET['category'];
+}
+
+
 function GetPermaLink($skip = 0)
 {
     $path = ltrim($_SERVER['REQUEST_URI'], '/');
@@ -47,7 +60,21 @@ function GetPermaLink($skip = 0)
           <li><a href="#">Page 3</a></li>
         </ul>
 
+
+<form action="index.PHP" method="GET">
+    <input type="search" name="query"/>
+	<select id="mySelect" name="category">
+	<option value="Fordon">Fordon</option>
+	<option value="För Hemmet">För Hemmet</option>
+	<option value="Personligt">Personligt</option>
+	<option value="Elektronik">Elektronik</option>
+	<option value="Fritid Och Hobby">Fritid Och Hobby</option>
+	<option value="Affärsverksamhet">Affärsverksamhet</option>
+	</select>
+	<input type="hidden" name="email" value="<?php echo $email?>">
+	
       </div>
+</form>
     </nav>
     <form class="search" action="index.php">
             <input class="searchTerm" placeholder="Enter your search term ..."><input class="searchButton" type="submit">
@@ -57,28 +84,20 @@ function GetPermaLink($skip = 0)
         <div class="well">  
             <table class="table">
                 <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
-                <?php
                 
-                if(isset($_GET['email']))
-                {
-                    $email = $_GET['email'];
-
-                }
-                else
-                {
-                    $email = null;
-    }
+    <?php
+	
+	 if(isset($_GET['query']))
 
     if(isset($_GET['name']))
                 {
-                    $name = $_GET['name'];
-
+        $query = $_GET['query'];
                 }
                 else
                 {
-                    $name = null;
+        $query = null;
                 }
-
+    $statement  = $db->prepare("SELECT * FROM annons WHERE Email LIKE '%$email%' AND Category LIKE '%$category%' AND (title LIKE '%$query%' OR name LIKE '%$query%' OR description LIKE '%$query%')  ORDER BY date DESC");
     if(isset($_GET['title']))
     {
         $title = $_GET['title'];
@@ -107,14 +126,16 @@ function GetPermaLink($skip = 0)
                 $statement ->bindParam(':email', $email);
                 $statement ->execute();
             	
+	
                 while($row = $statement->fetch(PDO::FETCH_ASSOC)){
         $id = "annons.php/?id=".$row['ID'];
         echo "<tr>";
         echo "<td><a href='{$id}'>{$row['title']}</a></td>";
-                    echo "<td>{$row['email']}</td>";
-                    echo '<td>'.$row['telnr'].'</td>';
-                    echo '<td>'.$row['name'].'</td>';
-                    echo '<td>'.$row['category'].'</td>';
+	   echo '<td>'.$row['title'].'</td>';
+        echo "<td><a href='?email={$row['email']}'>{$row['email']}</td>";
+        echo '<td>'.$row['telnr'].'</td>';
+        echo "<td>{$row['name']}</td>";
+        echo "<td>{$row['category']}</td>";
                     echo '<td>'.$row['description'].'</td>';
                     echo '<td>'.$row['picture'].'</td>';
                     echo '<td>'.$row['price'].'</td>';
