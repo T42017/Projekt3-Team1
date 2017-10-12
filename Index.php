@@ -19,7 +19,19 @@
     else{
         $category = $_GET['category'];
     }
-
+    if(empty($_GET['Sort'])){
+        $Sort = null;
+    }
+    else{
+        $Sort = $_GET['Sort'];
+    }
+	if(empty($_GET['Sortby'])){
+        $SortBy = null;
+    }
+    else{
+        $SortBy = $_GET['Sortby'];
+    }
+	
     // permalinks
     function GetPermaLink($skip = 0)
     {
@@ -51,9 +63,9 @@
                 </div>
                 <ul class="nav">
                     <li class="active"><a href="#"> Home </a></li>
-                    <li><a href="#">Page 1</a></li>
-                    <li><a href="#">Page 2</a></li>
-                    <li><a href="add.php">Add Item</a></li>
+                    <li><a href="Login.PHP"> Login Page </a></li>
+                    <li><a href="#"> Page 2 </a></li>
+                    <li><a href="add.php"> Add Item</a></li>
                 </ul>
 
             </div>
@@ -61,7 +73,7 @@
 
 
         <form class="search" action="index.PHP" method="GET">
-            <input class="searchTerm" type="search" name="query"/>
+            <input class="searchTerm" type="search" name="query" placeholder="Search for something" />
             <select id="mySelect" name="category">
                 <option value="Fordon">Fordon</option>
                 <option value="För Hemmet">För Hemmet</option>
@@ -69,6 +81,14 @@
                 <option value="Elektronik">Elektronik</option>
                 <option value="Fritid Och Hobby">Fritid Och Hobby</option>
                 <option value="Affärsverksamhet">Affärsverksamhet</option>
+            </select>
+			<select name="Sort">
+                <option value="ASC">Ascending</option>
+                <option value="Desc">Descending</option>
+            </select>
+			<select name="Sortby">
+                <option value="Price">Price</option>
+                <option value="date">Date</option>
             </select>
             <input class="searchButton" type="submit">
             <input type="hidden" name="email" value="<?php echo $email?>">
@@ -78,7 +98,7 @@
         <div id="content">
             <div class="well">
                 <table class="table">
-                    <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
+                    <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Price</td> <td>Date Of Upload </td> </tr>
 
                     <?php
 
@@ -111,12 +131,24 @@
                     {
                         $category = null;
                     }
+					if(isset($_GET['Sort'])){
+						$Sort = $_GET['Sort'];
+					}
+					else{
+						$Sort = null;
+					}
+					if(isset($_GET['Sortby'])){
+						$SortBy = $_GET['Sortby'];
+					}
+					else{
+						$SortBy = null;
+			    	}
 
                     $statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%' OR description LIKE '%$query%')  
-                                                          ORDER BY date DESC");
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY '%$SortBy%' '%$Sort%' ");
                     $statement ->bindParam(':email', $email);
                     $statement ->execute();
 
@@ -128,8 +160,6 @@
                             echo '<td>'.$row['telnr'].'</td>';
                             echo "<td>{$row['name']}</td>";
                             echo "<td>{$row['category']}</td>";
-                            echo '<td>'.$row['description'].'</td>';
-                            echo '<td>'.$row['picture'].'</td>';
                             echo '<td>'.$row['price'].'</td>';
                             echo '<td>'.$row['date'].'</td>';
                         }
