@@ -53,52 +53,64 @@
     }
 
 ?>
+<head>
+
+</head>
 
 <body>
     <div id="main">
-        <nav class="navbar">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#"><h1>Plocket</h1></a>
+        <header id="header">
+
+            <div class="max">
+                <div class="logo">
+                    <h1><a href="#">Plocket</a></h1>
                 </div>
-                <ul class="nav">
-                    <li class="active"><a href="#"> Home </a></li>
-                    <li><a href="Login.PHP"> Login Page </a></li>
-                    <li><a href="#"> Page 2 </a></li>
-                    <li><a href="add.php"> Add Item</a></li>
-                </ul>
 
+                <form class="search" action="index.PHP" method="GET">
+
+                    <input class="searchTerm" type="search" name="query" placeholder="Search for something">
+
+                    <input class="searchButton" type="submit">
+
+
+
+                    <!--
+                    <select name="Sort">
+                        <option value="ASC">Ascending</option>
+                        <option value="Desc">Descending</option>
+                    </select>
+
+                    <select name="Sortby">
+                        <option value="Price">Price</option>
+                        <option value="date">Date</option>
+                    </select>
+
+
+                    -->
+
+
+
+                    <input type="hidden" name="email" value="<?php echo $email?>">
+                </form>
+                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
             </div>
-        </nav>
+        </header>
+
+        <div class="sidebar">
 
 
-        <form class="search" action="index.PHP" method="GET">
-            <input class="searchTerm" type="search" name="query" placeholder="Search for something" />
-            <select id="mySelect" name="category">
-                <option value="Fordon">Fordon</option>
-                <option value="För Hemmet">För Hemmet</option>
-                <option value="Personligt">Personligt</option>
-                <option value="Elektronik">Elektronik</option>
-                <option value="Fritid Och Hobby">Fritid Och Hobby</option>
-                <option value="Affärsverksamhet">Affärsverksamhet</option>
-            </select>
-			<select name="Sort">
-                <option value="ASC">Ascending</option>
-                <option value="Desc">Descending</option>
-            </select>
-			<select name="Sortby">
-                <option value="Price">Price</option>
-                <option value="date">Date</option>
-            </select>
-            <input class="searchButton" type="submit">
-            <input type="hidden" name="email" value="<?php echo $email?>">
-        </form>
+            <a>Fordon</a>
+            <a>För Hemmet</a>
+            <a>Personligt</a>
+            <a> Elektronik</a>
+            <a> Fritid Och Hobby</a>
+            <a> Affärsverksamhet</a>
+
+
+        </div>
 
 
         <div id="content">
-            <div class="well">
-                <table class="table">
-                    <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Price</td> <td>Date Of Upload </td> </tr>
 
                     <?php
 
@@ -154,25 +166,32 @@
 
                         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
                             $id = "annons.php/?id=".$row['ID'];
-                            echo "<tr>";
-                            echo "<td><a href='{$id}'>{$row['title']}</a></td>";
-                            echo "<td><a href='?email={$row['email']}'>{$row['email']}</td>";
-                            echo '<td>'.$row['telnr'].'</td>';
-                            echo "<td>{$row['name']}</td>";
-                            echo "<td>{$row['category']}</td>";
-                            echo '<td>'.$row['price'].'</td>';
-                            echo '<td>'.$row['date'].'</td>';
+
+                            echo"
+                                <div class='article'>
+                                    <table class='table'>
+                                         <tr> <td>Title</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
+                                
+                                         <tr>
+                                         <td><a href='{$id}'>{$row['title']}</a></td>
+                                         <td>png.jpg</td>
+                                         <td>{$row['price']}</td>
+                                         <td>{$row['date']}</td>
+                                    </table>
+                                </div>
+                                    ";
                         }
 
-                        echo ("</tr>");
-                    ?>
-                </table>
-            </div>
 
-            <div class="well">
-            <footer> footer</footer>
-            </div>
+                    ?>
+
+
+            
 
         </div>
+
+        <footer> footer</footer>
+
     </div>
 </body>
+</html>
