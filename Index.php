@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-<script src="javascript.js"></script>
+
 
 
 <head>
@@ -20,26 +20,26 @@
                 <form class="search" action="index.php">
                     <input class="searchTerm" placeholder="Enter your search term ..."><input class="searchButton" type="submit">
                 </form>
-                <nav class="section" id="nav"><a href="#"><h5>Add</a><a href="#">Login</a><a href="#">Support</a></h5></nav>
+                <nav class="section" id="nav"><a href="index.php">Add</a><a href="index.php">Login</a><a href="index.php">Support</a></nav>
             </div>
         </header> 
         
             <div class="sidebar"> 
             <br> <b> Categories </b>
             <br>
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
-            <br> Pars & Accessories
+            <br> Parts & Accessories 
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
+            <br> Parts & Accessories
             </div>
            
 
