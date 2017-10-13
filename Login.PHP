@@ -66,7 +66,7 @@
 		$statement  = $db->prepare("DELETE FROM annons WHERE ID = :id");
 		            $statement ->bindParam(':id', $delete);
                     $statement ->execute();
-		echo "you product have been deleted"
+		echo "you product have been deleted";
 		}
 		
 		
