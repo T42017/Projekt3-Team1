@@ -20,16 +20,16 @@
         $category = $_GET['category'];
     }
     if(empty($_GET['Sort'])){
-        $Sort = null;
+        $sort = null;
     }
     else{
-        $Sort = $_GET['Sort'];
+        $sort = $_GET['Sort'];
     }
 	if(empty($_GET['Sortby'])){
-        $SortBy = null;
+        $sortby = null;
     }
     else{
-        $SortBy = $_GET['Sortby'];
+        $sortby = $_GET['Sortby'];
     }
 	if(empty($_GET['query']))
     {
@@ -99,7 +99,7 @@
 					<input type="hidden" name="category" value="<?php echo $category?>">
                     <input type="hidden" name="email" value="<?php echo $email?>">
 					<input type="hidden" name="sort" value="<?php echo $sort?>">
-					<input type="hidden" name="sortby" value="<?php echo $SortBy?>">
+					<input type="hidden" name="sortby" value="<?php echo $sortby?>">
                 </form>
                 <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
             </div>
@@ -158,58 +158,92 @@
                     if(isset($_GET['category']))
                     {
                         $category = $_GET['category'];
-
                     }
                     else
                     {
                         $category = null;
                     }
+					
 					if(isset($_GET['Sort'])){
-						$Sort = $_GET['Sort'];
+						$sort = $_GET['Sort'];
 					}
 					else{
-						$Sort = null;
+						$sort = null;
 					}
-					if(isset($GET['Sortby'])){
-						$SortBy = $_GET['Sortby'];
+					
+					if(isset($_GET['Sortby'])){
+						$sortby = $_GET['Sortby'];
 					}
 					else{
-						$SortBy = null;
+						$sortby = null;
 			    	}
 
-
-                    $statement  = $db->prepare("SELECT * FROM annons 
+					
+                    if($sort==='ASC' && $sortby==='price'){
+						echo "1";
+						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY '%$SortBy%' '%$Sort%' ");
-                    $statement ->bindParam(':sortby', $SortBy);
-					$statement ->bindParam(':sort', $Sort);
+                                                          ORDER BY price ASC ");
+						$statement ->bindParam(':sortby', $sortby);
+						$statement ->bindParam(':sort', $sort);
+						$statement ->execute();
+					}
+					else if($sort==='DESC' && $sortby==='date'){
+						echo "2";
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY date DESC ");
+						$statement ->bindParam(':sortby', $sortby);
+						$statement ->bindParam(':sort', $sort);
+						$statement ->execute();
+					}
+					else if($sort==='ASC' && $sortby==='date'){
+						echo "3";
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY date ASC ");
+                    $statement ->bindParam(':sortby', $sortby);
+					$statement ->bindParam(':sort', $sort);
                     $statement ->execute();
+					
+					}
+					else if($sort==='DESC' && $sortby==='price'){
+						echo "4";
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY price Price ");
+                    $statement ->bindParam(':sortby', $sortby);
+					$statement ->bindParam(':sort', $sort);
+                    $statement ->execute();
+					
+					}
+					
+				while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+					$id = "annons.php/?id=".$row['ID'];
 
-                        while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-                            $id = "annons.php/?id=".$row['ID'];
-
-                            echo"
-                                <div class='article'>
-                                    <table class='table'>
-                                         <tr> <td>Title</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
-                                
-                                         <tr>
-                                         <td><a href='{$id}'>{$row['title']}</a></td>
-                                         <td>png.jpg</td>
-                                         <td>{$row['price']}</td>
-                                         <td>{$row['date']}</td>
-                                    </table>
-                                </div>
-                                    ";
-                        }
-
-
-                    ?>
-
-
-            
+					echo"
+						<div class='article'>
+							<table class='table'>
+								 <tr> <td>Title</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
+						
+								 <tr>
+								 <td><a href='{$id}'>{$row['title']}</a></td>
+								 <td>png.jpg</td>
+								 <td>{$row['price']}</td>
+								 <td>{$row['date']}</td>
+							</table>
+						</div>
+							";
+				}
+			?>
 
         </div>
 
