@@ -182,7 +182,7 @@
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY :sortby :sort ");
+                                                          ORDER BY '%$SortBy%' '%$Sort%' ");
                     $statement ->bindParam(':sortby', $SortBy);
 					$statement ->bindParam(':sort', $Sort);
                     $statement ->execute();
