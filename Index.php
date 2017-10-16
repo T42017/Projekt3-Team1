@@ -31,7 +31,14 @@
     else{
         $SortBy = $_GET['Sortby'];
     }
-	
+	if(empty($_GET['query']))
+    {
+		$query = null;
+    }
+    else
+    {
+		$query = $_GET['query'];		
+    }
     // permalinks
     function GetPermaLink($skip = 0)
     {
@@ -91,6 +98,8 @@
 
 					<input type="hidden" name="category" value="<?php echo $category?>">
                     <input type="hidden" name="email" value="<?php echo $email?>">
+					<input type="hidden" name="sort" value="<?php echo $sort?>">
+					<input type="hidden" name="sortby" value="<?php echo $SortBy?>">
                 </form>
                 <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
             </div>
@@ -104,13 +113,21 @@
             <a href="index.PHP?category=Fritid Och Hobby">Fritid Och Hobby</a><br>
             <a href="index.PHP?category=Affärsverksamhet">Affärsverksamhet</a><br>
 			
-		<form class="sort" action="index.PHP" method="POST">
+		<form class="sort" action="index.PHP" method="GET">
 		
-		
+		<select name="Sort">
+			<option value="ASC">Ascending</option>
+			<option value="DESC">Descending</option>
+        </select>
+		<select name="Sortby">
+            <option value="price">Price</option>
+             <option value="date">Date</option>
+        </select>
 		
 		<input type="hidden" name="category" value="<?php echo $category?>">
         <input type="hidden" name="email" value="<?php echo $email?>">
 		<input type="hidden" name="query" value="<?php echo $query?>">
+		<input type="submit" value="sort">
 		</form>
         </div>
 
@@ -127,7 +144,6 @@
                     {
                         $query = null;
                     }
-
 
                     if(isset($_GET['title']))
                     {
@@ -154,19 +170,21 @@
 					else{
 						$Sort = null;
 					}
-					if(isset($_GET['Sortby'])){
+					if(isset($GET['Sortby'])){
 						$SortBy = $_GET['Sortby'];
 					}
 					else{
 						$SortBy = null;
 			    	}
 
+
                     $statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY '%$SortBy%' '%$Sort%' ");
-                    $statement ->bindParam(':email', $email);
+                                                          ORDER BY :sortby :sort ");
+                    $statement ->bindParam(':sortby', $SortBy);
+					$statement ->bindParam(':sort', $Sort);
                     $statement ->execute();
 
                         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
