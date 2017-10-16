@@ -89,7 +89,7 @@
                     -->
 
 
-
+					<input type="hidden" name="category" value="<?php echo $category?>">
                     <input type="hidden" name="email" value="<?php echo $email?>">
                 </form>
                 <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
@@ -97,16 +97,21 @@
         </header>
 
         <div class="sidebar">
-
-
-            <a>Fordon</a>
-            <a>För Hemmet</a>
-            <a>Personligt</a>
-            <a> Elektronik</a>
-            <a> Fritid Och Hobby</a>
-            <a> Affärsverksamhet</a>
-
-
+            <a href="index.PHP?category=Fordon">Fordon</a><br>
+            <a href="index.PHP?category=För Hemmet">För Hemmet</a><br>
+            <a href="index.PHP?category=Personligt">Personligt</a><br>
+            <a href="index.PHP?category=Elektronik">Elektronik</a><br>
+            <a href="index.PHP?category=Fritid Och Hobby">Fritid Och Hobby</a><br>
+            <a href="index.PHP?category=Affärsverksamhet">Affärsverksamhet</a><br>
+			
+		<form class="sort" action="index.PHP" method="POST">
+		
+		
+		
+		<input type="hidden" name="category" value="<?php echo $category?>">
+        <input type="hidden" name="email" value="<?php echo $email?>">
+		<input type="hidden" name="query" value="<?php echo $query?>">
+		</form>
         </div>
 
 
