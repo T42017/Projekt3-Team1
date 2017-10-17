@@ -4,9 +4,17 @@
 <?php $db = new PDO('mysql:host=localhost;dbname=annonser;charset=utf8mb4','root', '');?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="nouislider.min.css" >
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 <?php
+	
+	$gid = $db->prepare("SELECT MAX(price) as max_price, MIN(price) as min_price FROM annons");
+	$gid->execute();
+	$row = $gid->fetch(PDO::FETCH_ASSOC);
+	
+	$maximumprice=$row["max_price"];
+	$minimumprice=$row["min_price"];
 
     if(empty($_GET['email'])){
         $email=null;}
@@ -24,12 +32,6 @@
     }
     else{
         $sort = $_GET['Sort'];
-    }
-	if(empty($_GET['Sortby'])){
-        $sortby = null;
-    }
-    else{
-        $sortby = $_GET['Sortby'];
     }
 	if(empty($_GET['query']))
     {
@@ -65,6 +67,7 @@
 </head>
 
 <body>
+<script src="nouislider.min.js"></script>
     <div id="main">
         <header id="header">
 
@@ -90,6 +93,15 @@
         </header>
 
         <div class="sidebar">
+		var marginSlider = document.getElementById('slider-margin');
+		noUiSlider.create(marginSlider, {
+		start: [ 20, 80 ],
+		margin: 30,
+		range: {
+		'min': <php? echo $minimumprice?>,
+		'max': <php? echo $maximumprice?>
+		}
+		});
             <a href="index.PHP?category=Fordon">Fordon</a><br>
             <a href="index.PHP?category=För Hemmet">För Hemmet</a><br>
             <a href="index.PHP?category=Personligt">Personligt</a><br>
@@ -99,13 +111,12 @@
 			
 		<form class="sort" action="index.PHP" method="GET">
 		
+		
 		<select name="Sort">
-			<option value="ASC">Ascending</option>
-			<option value="DESC">Descending</option>
-        </select>
-		<select name="Sortby">
-            <option value="price">Price</option>
-             <option value="date">Date</option>
+			<option value="high"<?php if ($sort === "high") echo 'selected="selected"';?>>Högsta Pris</option>
+			<option value="low"<?php if ($sort === "low") echo 'selected="selected"';?>>Lägsta Pris</option>
+			<option value="new"<?php if ($sort === "new") echo 'selected="selected"';?>>Nyast</option>
+			<option value="old"<?php if ($sort === "old") echo 'selected="selected"';?>>Äldst</option>
         </select>
 		
 		<input type="hidden" name="category" value="<?php echo $category?>">
@@ -155,51 +166,43 @@
 						$sort = null;
 					}
 					
-					if(isset($_GET['Sortby'])){
-						$sortby = $_GET['Sortby'];
-					}
-					else{
-						$sortby = null;
-			    	}
-
-					
-                    if($sort==='ASC' && $sortby==='price'){
-						$statement  = $db->prepare("SELECT * FROM annons 
-                                                          WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY price ASC ");
-						$statement ->bindParam(':sortby', $sortby);
-						$statement ->bindParam(':sort', $sort);
-						$statement ->execute();
-					}
-					else if($sort==='DESC' && $sortby==='date'){
-						$statement  = $db->prepare("SELECT * FROM annons 
-                                                          WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY date DESC ");
-						$statement ->bindParam(':sortby', $sortby);
-						$statement ->bindParam(':sort', $sort);
-						$statement ->execute();
-					}
-					else if($sort==='ASC' && $sortby==='date'){
-						$statement  = $db->prepare("SELECT * FROM annons 
-                                                          WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY date ASC ");
-                    $statement ->bindParam(':sortby', $sortby);
-					$statement ->bindParam(':sort', $sort);
-                    $statement ->execute();
-					
-					}
-					else if($sort==='DESC' && $sortby==='price'){
+                    if($sort==='high'){
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
                                                           ORDER BY price DESC ");
+						$statement ->bindParam(':sortby', $sortby);
+						$statement ->bindParam(':sort', $sort);
+						$statement ->execute();
+					}
+					else if($sort==='low'){
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY date ASC ");
+						$statement ->bindParam(':sortby', $sortby);
+						$statement ->bindParam(':sort', $sort);
+						$statement ->execute();
+					}
+					else if($sort==='new'){
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY date DESC ");
+                    $statement ->bindParam(':sortby', $sortby);
+					$statement ->bindParam(':sort', $sort);
+                    $statement ->execute();
+					
+					}
+					else if($sort==='old'){
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY Date ASC ");
                     $statement ->bindParam(':sortby', $sortby);
 					$statement ->bindParam(':sort', $sort);
                     $statement ->execute();

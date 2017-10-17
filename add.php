@@ -124,7 +124,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 </div>
             </form>
         </div>
-        <footer> footer</footer>
+        <footer> </footer>
     </div>
 
 </body>
