@@ -133,11 +133,14 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 <?php
+session_start();
 
 
 if((empty($_POST['email']) or empty($_POST['phone']) or empty($_POST['name']) or empty($_POST['title']) or empty($_POST['category']) or empty($_POST['desc']) or empty($_POST['price']))){
 }
 else{
+$_SESSION["email"]	= $_POST['email'];
+$_SESSION["password"] = $_POST['password'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $name = $_POST['name'];

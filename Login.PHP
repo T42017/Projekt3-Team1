@@ -8,12 +8,12 @@
 
 <?php
  if(empty($_GET['LoginEmail'])){
-        $LoginEmail=null;}
+        $LoginEmail=$_SESSION['email'] ;}
     else{
         $LoginEmail= $_GET['LoginEmail'];
     }
     if(empty($_GET['password'])){
-        $password = null;
+        $password =$_SESSION['password'] ;;
     }
 	else{
 	    $password = $_GET['password'];	
@@ -46,12 +46,13 @@
                 <table class="table">
 		 <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Price</td> <td>Date Of Upload </td> <td>Delete </td> </tr>
 		<?php
+		session_start();
 		
 		if(isset($_GET['LoginEmail'])){
 		$loginemail=$_GET['LoginEmail'];				 
 		}
 		else{
-		$loginemail=null;
+		$loginemail=$_SESSION['email'] ;
 		
 		}
 		if(isset($_GET['password'])){
@@ -59,7 +60,7 @@
 		$password=$_GET['password'];
 		}
 		else{
-		$password=null;
+		$password=$_SESSION['password'] ;
 		}
 		if(isset($_GET['delete'])){
 		$delete=$_GET['delete'];
