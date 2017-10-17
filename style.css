@@ -5,16 +5,27 @@
 
 	
 }
-#content{
+#content-small{
 	float:right;
-	width:60%;
+    width: 60%;
 	margin-top: 10%;
 	height:100%;
 	border:2px solid black;
 	border-radius: 1px;
 	margin-bottom: 5%;
 	padding: 10px;
-	margin-right: 10%;
+	margin-right: 5%;
+}
+#content-big{
+    float:right;
+    width:90%;
+    margin-top: 10%;
+    height:100%;
+    border:2px solid black;
+    border-radius: 1px;
+    margin-bottom: 5%;
+    padding: 10px;
+    margin-right: 5%;
 }
 
 .well {
@@ -171,21 +182,31 @@ footer{
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
     padding: 25px;
     float:left;
-    margin-top: 10%;
-    margin-left: 2%;
-    position: static;
+    margin-top: 7%;
+    margin-left: 3%;
+    position: fixed;
     background-color:#ffffff;
 }
 
-.article{
-	width: 55%;
-	height: 200;
+.small-article{
+	width: 80%;
+    overflow: auto;
     border: 3px solid grey;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
     padding: 25px;
     float:left;
+    margin:1% 0% 1% 10%;
+    background-color:#ffffff;
+}
+
+.big-article{
+    width: 100%;
+    overflow: auto;
+    border: 3px solid grey;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+    padding: 25px;
+    float:inherit;
     margin-top:1%;
     margin-left:15%;
-    position: static;
     background-color:#ffffff;
 }

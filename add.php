@@ -13,21 +13,19 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 <body>
     <div id = "main">
 
-        <nav class="navbar">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#"><h1>Plocket</h1></a>
-                </div>
-                <ul class="nav">
-                    <li class="active"><a href="#"> Home </a></li>
-                    <li><a href="#">Page 1</a></li>
-                    <li><a href="#">Page 2</a></li>
-                    <li><a href="add.php">Add Item</a></li>
-                </ul>
-            </div>
-        </nav>
+        <header id="header">
 
-        <div id="content" class="well clearfix">
+            <div class="max">
+                <div class="logo">
+                    <h1><a href="/teamproject3/">Plocket</a></h1>
+                </div>
+
+
+                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
+            </div>
+        </header>
+
+        <div class="small-article clearfix">
             <form action="" method="post">
                  <div class ="float-left addForm container">
 
@@ -126,7 +124,9 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 </div>
             </form>
         </div>
+        <footer> footer</footer>
     </div>
+
 </body>
 
 

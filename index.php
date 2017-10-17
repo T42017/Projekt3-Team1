@@ -63,7 +63,7 @@
 
             <div class="max">
                 <div class="logo">
-                    <h1><a href="#">Plocket</a></h1>
+                    <h1><a href="/teamproject3/">Plocket</a></h1>
                 </div>
 
                 <form class="search" action="index.PHP" method="GET">
@@ -72,26 +72,8 @@
 
                     <input class="searchButton" type="submit">
 
-
-
-                    <!--
-                    <select name="Sort">
-                        <option value="ASC">Ascending</option>
-                        <option value="Desc">Descending</option>
-                    </select>
-
-                    <select name="Sortby">
-                        <option value="Price">Price</option>
-                        <option value="date">Date</option>
-                    </select>
-
-
-                    -->
-
-
-
-                    <input type="hidden" name="email" value="<?php echo $email?>">
                 </form>
+
                 <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
             </div>
         </header>
@@ -110,7 +92,7 @@
         </div>
 
 
-        <div id="content">
+        <div id="content-small">
 
                     <?php
 
@@ -157,26 +139,26 @@
 			    	}
 
                     $statement  = $db->prepare("SELECT * FROM annons 
-                                                          WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY '%$SortBy%' '%$Sort%' ");
+                                                          WHERE Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')");
                     $statement ->bindParam(':email', $email);
                     $statement ->execute();
 
                         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-                            $id = "annons.php/?id=".$row['ID'];
+                            $id = "annons.php?id=".$row['ID'];
 
                             echo"
-                                <div class='article'>
+                                <div class='small-article'>
                                     <table class='table'>
-                                         <tr> <td>Title</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
+                                         <tr> <td>Title</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> <td>Name</td> </tr>
                                 
                                          <tr>
                                          <td><a href='{$id}'>{$row['title']}</a></td>
                                          <td>png.jpg</td>
                                          <td>{$row['price']}</td>
                                          <td>{$row['date']}</td>
+                                         <td>{$row['name']}</td>
+                                         </tr>
                                     </table>
                                 </div>
                                     ";
