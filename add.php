@@ -21,12 +21,12 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 </div>
 
 
-                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
+                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href=""> Add</a></nav>
             </div>
         </header>
 
         <div class="small-article clearfix">
-            <form action="" method="post">
+            <form action="add.php" method="post" enctype="multipart/form-data">
                  <div class ="float-left addForm container">
 
                      <div class="row">
@@ -48,7 +48,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                             <input name ="phone" type="text">
                          </div>
                      </div>
-
+                     <br>
                      <div class="row">
                          <div class="col">
                              <label for="name">Your name</label>
@@ -67,7 +67,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                             <input name="title" type="text">
                          </div>
                      </div>
-
+                     <br>
                      <div class="row">
                          <div class="col">
                              <label for="desc">Description</label>
@@ -86,7 +86,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                          </div>
 
                      </div>
-
+                     <br>
                      <div class="row">
                          <div class="col">
 
@@ -115,8 +115,20 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                              </select>
                          </div>
                      </div>
-
-
+                    
+                     <div class="row">
+                        <div class="col">
+                            <br>
+                            <label for=""> Photo (png,jpg,jpeg) </label> 
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        <div class="col">
+                            <form action ="add.php" method="post" enctype="multipart/form-data">
+                                <input type="file" name="fileToUpload" id="fileToUpload">  
+                            </form>
+                        </div>
                     </div>
 
                 <div class ="float-right">
@@ -134,10 +146,10 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 <?php
 
-
 if((empty($_POST['email']) or empty($_POST['phone']) or empty($_POST['name']) or empty($_POST['title']) or empty($_POST['category']) or empty($_POST['desc']) or empty($_POST['price']))){
 }
 else{
+    
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $name = $_POST['name'];
@@ -150,4 +162,81 @@ else{
     $db->query("INSERT INTO `annons` (`ID`, `email`, `telnr`, `name`, `title`, `category`, `description`, `picture`, `price`, `date`, `password`) 
                       VALUES (NULL, '$email', '$phone', '$name', '$title', '$category', '$desc', 'jpg.png', '$price', '$date', '$password')");
 }
+
+
+ // UPLOAD PICTURE
+
+    // get unique string
+    function getGUID(){
+        if (function_exists('com_create_guid'))
+            {
+                return com_create_guid();
+            }
+            else
+            {
+                   mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
+                   $charid = strtoupper(md5(uniqid(rand(), true)));
+                   $hyphen = chr(45);// "-"
+                   $uuid = chr(123)// "{"
+                  .substr($charid, 0, 8).$hyphen
+                  .substr($charid, 8, 4).$hyphen
+                  .substr($charid,12, 4).$hyphen
+                  .substr($charid,16, 4).$hyphen
+                  .substr($charid,20,12)
+                  .chr(125);// "}"
+    
+         return $uuid;
+        }
+    }
+
+$guid = getGUID();
+
+if(!empty($_POST['submit'])){
+    $info = $_FILES["fileToUpload"]["name"];
+    $newname = $guid . ".png";
+    $uploadOk = 1;
+    $imageFileType = pathinfo($info,PATHINFO_EXTENSION);
+    $target = 'uploads/'.$newname;
+                 
+     // Check if image file is an image
+    
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);   
+        if($check !== false) {
+            $uploadOk = 1;
+        } else {
+            echo '<script language="javascript">';
+            echo 'alert("File is not an image")';
+            echo '</script>';
+            $uploadOk = 0;
+        } 
+        //Check file size / MAX File size
+        
+            if ($_FILES["fileToUpload"]["size"] > 500000) {
+                echo "<br>Sorry, your file is too large.<br>";
+                $uploadOk = 0;
+            }
+        
+    // Allow certain file formats
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            echo '<script language="javascript">';
+            echo 'alert("Only JPG, JPEG, PNG files are allowed.")';
+            echo '</script>';
+            $uploadOk = 0;
+        }
+    
+        if(isset($_POST['sumbit']))
+        {
+            if($uploadOk == 1) { 
+            move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target); 
+                    // ???? 
+                /* 
+                else {
+                    echo '<script language="javascript">';
+                        echo 'alert("Sorry, there was an error uploading your file.")';
+                        echo '</script>';   
+                }*/
+        } 
+        }
+       
+ }      
 ?>
