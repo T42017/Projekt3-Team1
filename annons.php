@@ -27,40 +27,57 @@ function GetPermaLink($skip = 0)
     }
 }
 
-if(isset($_GET['id']))
-{
-    $id = $_GET['id'];
-}
+
 
 ?>
+
 <body>
-<table>
+    <div id="main">
 
-<tr> <td>Title</td> <td>Telephone</td> <td>Name</td> <td>Title</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
+        <div id="header">
 
-<?php
-
-$statement  = $db->prepare("SELECT * FROM annons WHERE ID = $id");
-$statement ->bindParam(':email', $email);
-$statement ->execute();
-
-while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-    echo "<tr>";
-    echo "<td>{$row['title']}</td>";
-    echo "<td>{$row['email']}</td>";
-    echo '<td>'.$row['telnr'].'</td>';
-    echo '<td>'.$row['name'].'</td>';
-    echo '<td>'.$row['category'].'</td>';
-    echo '<td>'.$row['description'].'</td>';
-    echo '<td>'.$row['picture'].'</td>';
-    echo '<td>'.$row['price'].'</td>';
-    echo '<td>'.$row['date'].'</td>';
-}
-
-?>
+            <div class="max">
+                <div class="logo">
+                    <h1><a href="/teamproject3/">Plocket</a></h1>
+                </div>
 
 
+                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
+            </div>
+        </div>
+
+        <div id="content-big">
+            <?php
+            if(isset($_GET['id']))
+            {
+                $id = $_GET['id'];
+            }
+            $statement  = $db->prepare("SELECT * FROM annons WHERE ID = $id");
+            $statement ->execute();
+
+            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                echo"      
+                    <div class='big-article'>           
+                            <table class='table'>
+                            <tr> <td>Title</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
+                            <tr>
+                            <td>{$row['title']}</a></td>
+                            <td>{$row['telnr']}</td>
+                            <td>{$row['name']}</td>
+                            <td>{$row['category']}</td>
+                            <td>{$row['description']}</td>
+                            <td>png.jpg</td>
+                            <td>{$row['price']}</td>
+                            <td>{$row['date']}</td>
+                            </tr>
+                       </table>
+                       </div>";
+            }
+
+            ?>
 
 
-</table>
-    </body>
+        </div>
+<footer>footer</footer>
+    </div>
+ </body>
