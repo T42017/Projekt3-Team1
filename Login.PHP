@@ -8,12 +8,12 @@
 
 <?php
  if(empty($_POST['LoginEmail'])){
-        $LoginEmail=$_SESSION['email'] ;}
+        $LoginEmail=null;}
     else{
         $LoginEmail= $_POST['LoginEmail'];
     }
     if(empty($_POST['password'])){
-        $password =$_SESSION['password'] ;;
+        $password =null;
     }
 	else{
 	    $password = $_POST['password'];
@@ -46,13 +46,12 @@
 		 <div id="content-big">
 
                  <?php
-		session_start();
 		
                  if(isset($_POST['LoginEmail'])){
                      $loginemail=$_POST['LoginEmail'];
                  }
                  else{
-		$loginemail=$_SESSION['email'] ;
+		$loginemail=null ;
 		
                  }
                  if(isset($_POST['password'])){
@@ -60,7 +59,7 @@
                      $password=$_POST['password'];
                  }
                  else{
-		$password=$_SESSION['password'] ;
+		$password=null ;
                  }
 
 		
