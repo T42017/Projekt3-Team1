@@ -26,58 +26,104 @@ function GetPermaLink($skip = 0)
         return strtolower($req);
     }
 }
-
-
-
 ?>
 
+
 <body>
-    <div id="main">
+<div id="main">
 
-        <div id="header">
+    <div id="header">
 
-            <div class="max">
-                <div class="logo">
-                    <h1><a href="/teamproject3/">Plocket</a></h1>
-                </div>
-
-
-                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
+        <div class="max">
+            <div class="logo">
+                <h1><a href="/teamproject3/">Plocket</a></h1>
             </div>
+
+
+            <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
         </div>
-
-        <div id="content-big">
-            <?php
-            if(isset($_GET['id']))
-            {
-                $id = $_GET['id'];
-            }
-            $statement  = $db->prepare("SELECT * FROM annons WHERE ID = $id");
-            $statement ->execute();
-
-            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-                echo"      
-                    <div class='big-article'>           
-                            <table class='table'>
-                            <tr> <td>Title</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
-                            <tr>
-                            <td>{$row['title']}</a></td>
-                            <td>{$row['telnr']}</td>
-                            <td>{$row['name']}</td>
-                            <td>{$row['category']}</td>
-                            <td>{$row['description']}</td>
-                            <td>png.jpg</td>
-                            <td>{$row['price']}</td>
-                            <td>{$row['date']}</td>
-                            </tr>
-                       </table>
-                       </div>";
-            }
-
-            ?>
-
-
-        </div>
-<footer>footer</footer>
     </div>
- </body>
+
+    <div id="content-big">
+        <?php
+        if(isset($_GET['id']))
+        {
+            $id = $_GET['id'];
+        }
+        $statement  = $db->prepare("SELECT * FROM annons WHERE ID = $id");
+        $statement ->execute();
+
+        while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+            echo"      
+                                <div class='article'>
+                                  
+                                    <div class='tmp'>
+                                    
+                                        <div class='row'>
+                                            <div class='col'><b>Title</b></div>
+                                            <div class='col'>{$row['title']}</div>                                     
+                                        </div>  
+                                        
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Telephone</b></div>
+                                            <div class='col'>{$row['telnr']}</div>
+                                        </div> 
+                                         
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Name</b></div>
+                                            <div class='col'>{$row['name']}</div>
+                                        </div> 
+                                         
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Category</b></div>
+                                            <div class='col'>{$row['category']}</div>
+                                        </div> 
+                                         
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Description</b></div>
+                                            <div class='col'>{$row['description']}</div>
+                                        </div>  
+                                        
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>E-mail</b></div>
+                                            <div class='col'>{$row['email']}</div>
+                                        </div>  
+                                        
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Price</b></div>
+                                            <div class='col'>{$row['price']}</div>
+                                        </div>  
+                                        
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Date Of Upload</b></div>
+                                            <div class='col'>{$row['date']}</div>
+                                        </div>   
+                                    
+                                    </div>
+                                    
+                                    <p class='float-right tmp2'>jpg.png</p>
+                                                                                                                                              
+                                </div>";
+        }
+
+        ?>
+
+
+    </div>
+    <footer>footer</footer>
+</div>
+</body>

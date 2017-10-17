@@ -13,19 +13,28 @@
 	border:2px solid black;
 	border-radius: 1px;
 	margin-bottom: 5%;
-	padding: 10px;
 	margin-right: 5%;
+    padding: 1% 1% 0% 1%;
 }
 #content-big{
     float:right;
     width:90%;
-    margin-top: 10%;
+    margin-top: 5%;
     height:100%;
     border:2px solid black;
     border-radius: 1px;
     margin-bottom: 5%;
-    padding: 10px;
     margin-right: 5%;
+    padding: 1% 1% 0% 1%;
+
+}
+
+.tmp{
+    width: 70%;
+
+}
+.tmp2{
+    top:0;
 }
 
 .well {
@@ -98,9 +107,8 @@ button {
   background: dodgerblue;
   color: white;
   padding: 0.5rem 1.25rem;
-  margin: 0 1rem;
   border-radius: 4px;
-  margin-top: 10%;
+
 }
 button:hover {
   cursor: pointer;
@@ -128,6 +136,7 @@ button:focus {
 }
 
 #header {
+    z-index: 1;
   padding: 0 2rem;
   height: 80px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
@@ -168,11 +177,16 @@ button:focus {
 	display: fixed;
 }
 
-footer{ 
-  position:static; 
-  width:100%; 
-  height:100px; 
-  background-color: green;
+footer{
+    padding: 0 2rem;
+    height: 80px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+    position:sticky;
+
+    width:100%;
+    background-color:whitesmoke;
+
+
   overflow: hidden;
 }
 
@@ -182,31 +196,20 @@ footer{
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
     padding: 25px;
     float:left;
-    margin-top: 7%;
-    margin-left: 3%;
-    position: fixed;
+    margin-top: 10%;
+    margin-left: 5%;
+    position: static;
     background-color:#ffffff;
 }
 
-.small-article{
-	width: 80%;
-    overflow: auto;
-    border: 3px solid grey;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
-    padding: 25px;
-    float:left;
-    margin:1% 0% 1% 10%;
-    background-color:#ffffff;
-}
-
-.big-article{
+.article{
     width: 100%;
     overflow: auto;
     border: 3px solid grey;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
     padding: 25px;
     float:inherit;
-    margin-top:1%;
-    margin-left:15%;
+
+    margin-bottom:1%;
     background-color:#ffffff;
 }

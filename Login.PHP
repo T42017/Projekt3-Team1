@@ -7,6 +7,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 <?php
+
  if(empty($_POST['LoginEmail'])){
         $LoginEmail=null;}
     else{
@@ -20,6 +21,7 @@
 	}	
 ?>
 <body>
+
     <div id="main">
         <header id="header">
 
@@ -33,13 +35,16 @@
             </div>
         </header>
 
-        <div class="small-article">
-            <form action="Login.PHP" method="POST">
-                <input type="text" name="LoginEmail" placeholder="Account Email" required />
-                <input type="text" name="password" placeholder="password for account" required />
-                <input type="submit">
-            </form>
+        <div id="content-big">
+            <div class="article">
+                <form action="Login.PHP" method="POST">
+                    <input type="text" name="LoginEmail" placeholder="Account Email" required />
+                    <input type="text" name="password" placeholder="password for account" required />
+                    <button type="submit"> Login </button>
+                </form>
+            </div>
         </div>
+
 
 
 
@@ -77,22 +82,68 @@
 
                  while($row = $statement->fetch(PDO::FETCH_ASSOC)){
                      echo"      
-                                <div class='big-article'>           
-                                        <table class='table'>
-                                        <tr> <td>Title</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
-                                        <tr>
-                                        <td>{$row['title']}</a></td>
-                                        <td>{$row['telnr']}</td>
-                                        <td>{$row['name']}</td>
-                                        <td>{$row['category']}</td>
-                                        <td>{$row['description']}</td>
-                                        <td>png.jpg</td>
-                                        <td>{$row['price']}</td>
-                                        <td>{$row['date']}</td>
-                                        <td><form method='post'><button value='{$row['ID']}' name='delete'> Delete </button></form></td>                    
-                                        </tr>
-                                   </table>
-                                   </div>";
+                                <div class='article'> <div class='tmp'>
+                                    
+                                        <div class='row'>
+                                            <div class='col'><b>Title</b></div>
+                                            <div class='col'>{$row['title']}</div>                                     
+                                        </div>  
+                                        
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Telephone</b></div>
+                                            <div class='col'>{$row['telnr']}</div>
+                                        </div> 
+                                         
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Name</b></div>
+                                            <div class='col'>{$row['name']}</div>
+                                        </div> 
+                                         
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Category</b></div>
+                                            <div class='col'>{$row['category']}</div>
+                                        </div> 
+                                         
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Description</b></div>
+                                            <div class='col'>{$row['description']}</div>
+                                        </div>  
+                                        
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>E-mail</b></div>
+                                            <div class='col'>{$row['email']}</div>
+                                        </div>  
+                                        
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Price</b></div>
+                                            <div class='col'>{$row['price']}</div>
+                                        </div>  
+                                        
+                                        <br>
+                                        
+                                        <div class='row'>
+                                            <div class='col'><b>Date Of Upload</b></div>
+                                            <div class='col'>{$row['date']}</div>
+                                        </div>   
+                                    
+                                    </div>
+                                    
+                                    <p class='float-right tmp2'>jpg.png</p>
+                                    
+                                    <form method='post' class='float-right'> <button value='{$row['ID']}' name='delete'> Remove </button> </form>                                      
+                                </div>";
                  }
                  if(isset($_POST['delete'])){
                      $delete=$_POST['delete'];

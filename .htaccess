@@ -1,8 +1,8 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /teamproject3
+RewriteBase /teamproject3/
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /teamproject3/annons.php [L]
+RewriteRule . /teamproject3/index.php [L]
 </IfModule>

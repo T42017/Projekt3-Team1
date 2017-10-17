@@ -111,7 +111,7 @@
 		<input type="hidden" name="category" value="<?php echo $category?>">
         <input type="hidden" name="email" value="<?php echo $email?>">
 		<input type="hidden" name="query" value="<?php echo $query?>">
-		<input type="submit" value="sort">
+            <button type="submit">Sort</button>
 		</form>
         </div>
 
@@ -217,23 +217,41 @@
 					}
 					
 				while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-					$id = "annons.php/?id=".$row['ID'];
-
-					echo"
-						<div class='small-article'>
-							<table class='table'>
-								 <tr> <td>Title</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
-						
-								 <tr>
-								 <td><a href='{$id}'>{$row['title']}</a></td>
-								 <td>png.jpg</td>
-								 <td>{$row['price']}</td>
-								 <td>{$row['date']}</td>
-							</table>
-						</div>
+					$id = "annons.php?id=".$row['ID'];
+                        echo"
+                            <div class='article'>
+                                <div class='row'>
+                                    <div class='col'>
+                                    Title
+                                    </div>
+                                    <div class='col'>
+                                    Picture
+                                    </div>
+                                    <div class='col'>
+                                    Price
+                                    </div>
+                                    <div class='col'>
+                                    Date Of Upload
+                                    </div>
+                                </div>
+                            <hr>
+                                <div class='row'>                                
+                                    <div class='col'>
+                                        <a href='{$id}'>{$row['title']}</a>
+                                    </div>
+                                    <div class='col'>
+                                        png.jpg
+                                    </div>
+                                    <div class='col'>
+                                        {$row['price']}
+                                    </div>
+                                    <div class='col'>
+                                        {$row['date']}
+                                    </div>
+                                </div>							
+						    </div>
 							";
-				}
-			?>
+				}?>
 
         </div>
 
