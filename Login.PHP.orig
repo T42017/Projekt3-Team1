@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<meta charset = "utf-8">
+<?php $db = new PDO('mysql:host=localhost;dbname=annonser;charset=utf8mb4','root', '');?>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<link rel="stylesheet" href="style.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+<?php
+<<<<<<< HEAD
+ if(empty($_GET['LoginEmail'])){
+        $LoginEmail=$_SESSION['email'] ;}
+=======
+ if(empty($_POST['LoginEmail'])){
+        $LoginEmail=null;}
+>>>>>>> Develop
+    else{
+        $LoginEmail= $_POST['LoginEmail'];
+    }
+<<<<<<< HEAD
+    if(empty($_GET['password'])){
+        $password =$_SESSION['password'] ;;
+=======
+    if(empty($_POST['password'])){
+        $password = null;
+>>>>>>> Develop
+    }
+	else{
+	    $password = $_POST['password'];
+	}	
+?>
+<body>
+    <div id="main">
+        <header id="header">
+
+            <div class="max">
+                <div class="logo">
+                    <h1><a href="/teamproject3/">Plocket</a></h1>
+                </div>
+
+
+                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
+            </div>
+<<<<<<< HEAD
+        </nav>
+
+		 <form class="search" action="Login.PHP" method="GET">
+            <input class="loginTerm" type="text" name="LoginEmail" placeholder="Account Email" required />
+            <input name="password" type="text" name="password" placeholder="password for account" required />
+			<input class="searchButton" type="submit">
+        </form>
+		 <div id="content">
+            <div class="well">
+                <table class="table">
+		 <tr> <td>Title</td> <td>Email</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Price</td> <td>Date Of Upload </td> <td>Delete </td> </tr>
+		<?php
+		session_start();
+		
+		if(isset($_GET['LoginEmail'])){
+		$loginemail=$_GET['LoginEmail'];				 
+		}
+		else{
+		$loginemail=$_SESSION['email'] ;
+=======
+        </header>
+
+        <div class="small-article">
+            <form action="Login.PHP" method="POST">
+                <input type="text" name="LoginEmail" placeholder="Account Email" required />
+                <input type="text" name="password" placeholder="password for account" required />
+                <input type="submit">
+            </form>
+        </div>
+
+
+
+		 <div id="content-big">
+
+                 <?php
+>>>>>>> Develop
+		
+                 if(isset($_POST['LoginEmail'])){
+                     $loginemail=$_POST['LoginEmail'];
+                 }
+                 else{
+                     $loginemail=null;
+		
+<<<<<<< HEAD
+		$password=$_GET['password'];
+		}
+		else{
+		$password=$_SESSION['password'] ;
+		}
+		if(isset($_GET['delete'])){
+		$delete=$_GET['delete'];
+		$statement  = $db->prepare("DELETE FROM annons WHERE ID = :id");
+		            $statement ->bindParam(':id', $delete);
+                    $statement ->execute();
+		echo "you product have been deleted";
+		}
+=======
+                 }
+                 if(isset($_POST['password'])){
+>>>>>>> Develop
+		
+                     $password=$_POST['password'];
+                 }
+                 else{
+                     $password=null;
+                 }
+
+		
+		
+                 $loginemail=urldecode($loginemail);
+		
+                 $statement  = $db->prepare("SELECT * FROM annons WHERE email = :email AND password = :password ORDER BY date DESC");
+
+                 $statement ->bindParam(':email', $loginemail);
+
+                 $statement ->bindParam(':password', $password);
+
+                 $statement ->execute();
+
+
+                 while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                     echo"      
+                                <div class='big-article'>           
+                                        <table class='table'>
+                                        <tr> <td>Title</td> <td>Telephone</td> <td>Name</td> <td>Category</td> <td>Description</td> <td>Picture</td> <td>Price</td> <td>Date Of Upload </td> </tr>
+                                        <tr>
+                                        <td>{$row['title']}</a></td>
+                                        <td>{$row['telnr']}</td>
+                                        <td>{$row['name']}</td>
+                                        <td>{$row['category']}</td>
+                                        <td>{$row['description']}</td>
+                                        <td>png.jpg</td>
+                                        <td>{$row['price']}</td>
+                                        <td>{$row['date']}</td>
+                                        <td><form method='post'><button value='{$row['ID']}' name='delete'> Delete </button></form></td>                    
+                                        </tr>
+                                   </table>
+                                   </div>";
+                 }
+                 if(isset($_POST['delete'])){
+                     $delete=$_POST['delete'];
+                     $statement  = $db->prepare("DELETE FROM annons WHERE ID = :id");
+
+                     $statement ->bindParam(':id', $delete);
+                     $statement ->execute();
+                     echo "you product have been deleted";
+                 }
+                 ?>
+		
+         </div>
+         <footer> footer </footer>
+    </div>
+</body>
