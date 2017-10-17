@@ -89,14 +89,13 @@
                                         <td>png.jpg</td>
                                         <td>{$row['price']}</td>
                                         <td>{$row['date']}</td>
-                                        <td><a href='?delete={$row['ID']}'>Delete</a></td>
+                                        <td><form method='post'><button value='{$row['ID']}' name='delete'> Delete </button></form></td>                    
                                         </tr>
                                    </table>
                                    </div>";
                  }
-
-                 if(isset($_GET['delete'])){
-                     $delete=$_GET['delete'];
+                 if(isset($_POST['delete'])){
+                     $delete=$_POST['delete'];
                      $statement  = $db->prepare("DELETE FROM annons WHERE ID = :id");
 
                      $statement ->bindParam(':id', $delete);
