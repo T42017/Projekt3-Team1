@@ -180,7 +180,6 @@
 
 					
                     if($sort==='ASC' && $sortby==='price'){
-						echo "1";
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
@@ -191,7 +190,6 @@
 						$statement ->execute();
 					}
 					else if($sort==='DESC' && $sortby==='date'){
-						echo "2";
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
@@ -202,7 +200,6 @@
 						$statement ->execute();
 					}
 					else if($sort==='ASC' && $sortby==='date'){
-						echo "3";
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
@@ -214,16 +211,25 @@
 					
 					}
 					else if($sort==='DESC' && $sortby==='price'){
-						echo "4";
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY price Price ");
+                                                          ORDER BY price DESC ");
                     $statement ->bindParam(':sortby', $sortby);
 					$statement ->bindParam(':sort', $sort);
                     $statement ->execute();
 					
+					}
+					else{
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY date DESC ");
+                    $statement ->bindParam(':sortby', $sortby);
+					$statement ->bindParam(':sort', $sort);
+                    $statement ->execute();
 					}
 					
 				while($row = $statement->fetch(PDO::FETCH_ASSOC)){
