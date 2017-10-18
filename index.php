@@ -4,7 +4,7 @@
 <?php $db = new PDO('mysql:host=localhost;dbname=annonser;charset=utf8mb4','root', '');?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="nouislider.min.css" >
+<link rel="stylesheet" href="sliderstyle.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 <?php
@@ -67,7 +67,6 @@
 </head>
 
 <body>
-<script src="nouislider.min.js"></script>
     <div id="main">
         <header id="header">
 
@@ -93,15 +92,7 @@
         </header>
 
         <div class="sidebar">
-		var marginSlider = document.getElementById('slider-margin');
-		noUiSlider.create(marginSlider, {
-		start: [ 20, 80 ],
-		margin: 30,
-		range: {
-		'min': <php? echo $minimumprice?>,
-		'max': <php? echo $maximumprice?>
-		}
-		});
+		
             <a href="index.PHP?category=Fordon">Fordon</a><br>
             <a href="index.PHP?category=För Hemmet">För Hemmet</a><br>
             <a href="index.PHP?category=Personligt">Personligt</a><br>
@@ -112,6 +103,7 @@
 		<form class="sort" action="index.PHP" method="GET">
 		
 		
+		 
 		<select name="Sort">
 			<option value="high"<?php if ($sort === "high") echo 'selected="selected"';?>>Högsta Pris</option>
 			<option value="low"<?php if ($sort === "low") echo 'selected="selected"';?>>Lägsta Pris</option>
@@ -170,7 +162,7 @@
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '%$lowprice%' AND '%$highprice%'
                                                           ORDER BY price DESC ");
 						$statement ->bindParam(':sortby', $sortby);
 						$statement ->bindParam(':sort', $sort);
@@ -180,8 +172,8 @@
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY date ASC ");
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '%$lowprice%' AND '%$highprice%'
+                                                          ORDER BY price ASC ");
 						$statement ->bindParam(':sortby', $sortby);
 						$statement ->bindParam(':sort', $sort);
 						$statement ->execute();
@@ -190,7 +182,7 @@
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')AND price BETWEEN '%$lowprice%' AND '%$highprice%'  
                                                           ORDER BY date DESC ");
                     $statement ->bindParam(':sortby', $sortby);
 					$statement ->bindParam(':sort', $sort);
@@ -201,7 +193,7 @@
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '%$lowprice%' AND '%$highprice%'
                                                           ORDER BY Date ASC ");
                     $statement ->bindParam(':sortby', $sortby);
 					$statement ->bindParam(':sort', $sort);
@@ -212,7 +204,7 @@
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '%$lowprice%' AND '%$highprice%'
                                                           ORDER BY date DESC ");
                     $statement ->bindParam(':sortby', $sortby);
 					$statement ->bindParam(':sort', $sort);
