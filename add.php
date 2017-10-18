@@ -125,9 +125,9 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                    
                     <div class="row">
                         <div class="col">
-                            <form action ="add.php" method="post" enctype="multipart/form-data">
+                            
                                 <input type="file" name="fileToUpload" id="fileToUpload">  
-                            </form>
+                            
                         </div>
                     </div>
 
@@ -145,6 +145,9 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 <?php
+
+
+
 
 if((empty($_POST['email']) or empty($_POST['phone']) or empty($_POST['name']) or empty($_POST['title']) or empty($_POST['category']) or empty($_POST['desc']) or empty($_POST['price']))){
 }
@@ -164,7 +167,7 @@ else{
 }
 
 
- // UPLOAD PICTURE
+// UPLOAD PICTURE
 
     // get unique string
     function getGUID(){
@@ -191,52 +194,54 @@ else{
 
 $guid = getGUID();
 
-if(!empty($_POST['submit'])){
-    $info = $_FILES["fileToUpload"]["name"];
+
+
+
+if($_SERVER['REQUEST_METHOD'] === "POST"){
+       $info = $_FILES["fileToUpload"]["name"];
+    //$ext = $info['extension'];
     $newname = $guid . ".png";
     $uploadOk = 1;
     $imageFileType = pathinfo($info,PATHINFO_EXTENSION);
     $target = 'uploads/'.$newname;
-                 
-     // Check if image file is an image
     
-        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);   
-        if($check !== false) {
-            $uploadOk = 1;
-        } else {
-            echo '<script language="javascript">';
-            echo 'alert("File is not an image")';
-            echo '</script>';
-            $uploadOk = 0;
-        } 
-        //Check file size / MAX File size
-        
-            if ($_FILES["fileToUpload"]["size"] > 500000) {
-                echo "<br>Sorry, your file is too large.<br>";
-                $uploadOk = 0;
-            }
-        
+    // Check if image file is a actual image or fake image
+ 
+     //Check file size
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+                echo '<script language="javascript">';
+                echo 'alert("File size to big.")';
+                echo '</script>';
+        $uploadOk = 0;
+    }
     // Allow certain file formats
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            echo '<script language="javascript">';
-            echo 'alert("Only JPG, JPEG, PNG files are allowed.")';
-            echo '</script>';
-            $uploadOk = 0;
-        }
-    
-        if(isset($_POST['sumbit']))
-        {
-            if($uploadOk == 1) { 
-            move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target); 
-                    // ???? 
-                /* 
-                else {
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                echo '<script language="javascript">';
+                echo 'alert("Only .jpg, .jpeg, & .png allowed.")';
+                echo '</script>';
+        $uploadOk = 0;
+    }
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+                echo '<script language="javascript">';
+                echo 'alert("There was an error uploading your photo.")';
+                echo '</script>';
+    // if everything is ok, try to upload file
+    } 
+    else {
+        
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target)) {
+        
                     echo '<script language="javascript">';
-                        echo 'alert("Sorry, there was an error uploading your file.")';
-                        echo '</script>';   
-                }*/
-        } 
+                    echo 'alert("Your photo has successfully been uploaded.")';
+                    echo '</script>';
+        } else {
+                echo '<script language="javascript">';
+                echo 'alert("There was an error uploading your photo.")';
+                echo '</script>';
         }
-       
- }      
+    }
+}
+
+ 
 ?>
