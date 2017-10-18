@@ -154,7 +154,7 @@
                                 
                                          <tr>
                                          <td><a href='{$id}'>{$row['title']}</a></td>
-                                         <td>png.jpg</td>
+                                         <td><img src='uploads/{$row['picture']}' height='130' width='130'></td>
                                          <td>{$row['price']}</td>
                                          <td>{$row['date']}</td>
                                          <td>{$row['name']}</td>

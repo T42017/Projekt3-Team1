@@ -66,7 +66,7 @@ function GetPermaLink($skip = 0)
                             <td>{$row['name']}</td>
                             <td>{$row['category']}</td>
                             <td>{$row['description']}</td>
-                            <td>png.jpg</td>
+                            <td>{$row['picture']}</td>
                             <td>{$row['price']}</td>
                             <td>{$row['date']}</td>
                             </tr>

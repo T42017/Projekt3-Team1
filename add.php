@@ -184,7 +184,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     $imageFileType = pathinfo($info,PATHINFO_EXTENSION);
     $target = 'uploads/'.$newname;
     
-    // Check if image file is a actual image or fake image
+    
  
      //Check file size
     if ($_FILES["fileToUpload"]["size"] > 500000) {
@@ -194,19 +194,19 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
         $uploadOk = 0;
     }
     // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+    if($uploadOk == 1 && $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
                 echo '<script language="javascript">';
                 echo 'alert("Only .jpg, .jpeg, & .png allowed.")';
                 echo '</script>';
         $uploadOk = 0;
     }
     // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-                echo '<script language="javascript">';
-                echo 'alert("There was an error uploading your photo.")';
-                echo '</script>';
+    //if ($uploadOk == 0) {
+    //            echo '<script language="javascript">';
+    //            echo 'alert("There was an error uploading your photo.")';
+    //            echo '</script>';
     // if everything is ok, try to upload file
-    } 
+    //} 
     else {
         
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target)) {
@@ -215,9 +215,9 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                     echo 'alert("Your photo has successfully been uploaded.")';
                     echo '</script>';
         } else {
-                echo '<script language="javascript">';
-                echo 'alert("There was an error uploading your photo.")';
-                echo '</script>';
+                //echo '<script language="javascript">';
+                //echo 'alert("There was an error uploading your photo.")';
+                //echo '</script>';
         }
     }
 }
@@ -227,7 +227,8 @@ if((empty($_POST['email']) or empty($_POST['phone']) or empty($_POST['name']) or
 }
 else{
     
-    $email = $_POST['email'];
+    if($uploadOk == 1){
+        $email = $_POST['email'];
     $phone = $_POST['phone'];
     $name = $_POST['name'];
     $title = $_POST['title'];
@@ -235,9 +236,18 @@ else{
     $category = $_POST['category'];
     $desc = $_POST['desc'];
     $price = $_POST['price'];
+    $picture = $newname;
     $date = date("Y-m-d", time());
     $db->query("INSERT INTO `annons` (`ID`, `email`, `telnr`, `name`, `title`, `category`, `description`, `picture`, `price`, `date`, `password`) 
-                      VALUES (NULL, '$email', '$phone', '$name', '$title', '$category', '$desc', '$newname', '$price', '$date', '$password')");
+                      VALUES (NULL, '$email', '$phone', '$name', '$title', '$category', '$desc', '$picture', '$price', '$date', '$password')");
+    }
+    else{
+                echo '<script language="javascript">';
+                echo 'alert("You must choose a picture!")';
+                echo '</script>';
+    }
+
+    
 }
 
 
