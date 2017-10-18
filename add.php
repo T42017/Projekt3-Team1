@@ -146,27 +146,6 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 <?php
 
-
-
-
-if((empty($_POST['email']) or empty($_POST['phone']) or empty($_POST['name']) or empty($_POST['title']) or empty($_POST['category']) or empty($_POST['desc']) or empty($_POST['price']))){
-}
-else{
-    
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $name = $_POST['name'];
-    $title = $_POST['title'];
-    $password = $_POST['password'];
-    $category = $_POST['category'];
-    $desc = $_POST['desc'];
-    $price = $_POST['price'];
-    $date = date("Y-m-d", time());
-    $db->query("INSERT INTO `annons` (`ID`, `email`, `telnr`, `name`, `title`, `category`, `description`, `picture`, `price`, `date`, `password`) 
-                      VALUES (NULL, '$email', '$phone', '$name', '$title', '$category', '$desc', 'jpg.png', '$price', '$date', '$password')");
-}
-
-
 // UPLOAD PICTURE
 
     // get unique string
@@ -242,6 +221,27 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
         }
     }
 }
+
+
+if((empty($_POST['email']) or empty($_POST['phone']) or empty($_POST['name']) or empty($_POST['title']) or empty($_POST['category']) or empty($_POST['desc']) or empty($_POST['price']))){
+}
+else{
+    
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $name = $_POST['name'];
+    $title = $_POST['title'];
+    $password = $_POST['password'];
+    $category = $_POST['category'];
+    $desc = $_POST['desc'];
+    $price = $_POST['price'];
+    $date = date("Y-m-d", time());
+    $db->query("INSERT INTO `annons` (`ID`, `email`, `telnr`, `name`, `title`, `category`, `description`, `picture`, `price`, `date`, `password`) 
+                      VALUES (NULL, '$email', '$phone', '$name', '$title', '$category', '$desc', '$newname', '$price', '$date', '$password')");
+}
+
+
+
 
  
 ?>
