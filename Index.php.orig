@@ -4,133 +4,328 @@
 <?php $db = new PDO('mysql:host=localhost;dbname=annonser;charset=utf8mb4','root', '');?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="sliderstyle.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 <?php
+	
+	$gid = $db->prepare("SELECT MAX(price) as max_price, MIN(price) as min_price FROM annons");
+	$gid->execute();
+	$row = $gid->fetch(PDO::FETCH_ASSOC);
+	
+	$maximumprice=$row["max_price"]+1;
+	$minimumprice=$row["min_price"];
 
-function GetPermaLink($skip = 0)
-{
-    $path = ltrim($_SERVER['REQUEST_URI'], '/');
-    $elements = explode('/', $path);
-
-    if(empty($elements[0]))
-    {
-        return null;
+    if(empty($_GET['email'])){
+        $email=null;}
+    else{
+        $email= $_GET['email'];
     }
-    else
-    {
-        for($i=0; $i< $skip;$i++)
-            array_shift($elements);
-
-        $req = array_shift($elements);
-        return strtolower($req);
-    }
-}
-
-?>
-
-<head>
-
-
-</head>
-<body>
-<div id="main">
-    <nav class="navbar">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#"><h1>Blocket</h1></a>
-        </div>
-        <ul class="nav">
-          <li class="active"><a href="#"> Home </a></li>
-          <li><a href="#">Page 1</a></li>
-          <li><a href="#">Page 2</a></li>
-          <li><a href="#">Page 3</a></li>
-        </ul>
-
-      </div>
-    </nav>
-    <form class="search" action="index.php">
-            <input class="searchTerm" placeholder="Enter your search term ..."><input class="searchButton" type="submit">
-    </form> 
-
-    <div id="content">
-        <div class="well">  
-            <table class="table">
-                <?php
-                
-                if(isset($_GET['email']))
-                {
-                    $email = $_GET['email'];
-
-                }
-                else
-                {
-                    $email = null;
-    }
-
-    if(isset($_GET['name']))
-                {
-                    $name = $_GET['name'];
-
-                }
-                else
-                {
-                    $name = null;
-                }
-
-    if(isset($_GET['title']))
-    {
-        $title = $_GET['title'];
-
-    }
-    else
-    {
-        $title = null;
-    }
-
-    if(isset($_GET['category']))
-    {
-        $category = $_GET['category'];
-
-    }
-    else
-    {
+    if(empty($_GET['category'])){
         $category = null;
     }
+    else{
+        $category = $_GET['category'];
+    }
+    if(empty($_GET['Sort'])){
+        $sort = null;
+    }
+    else{
+        $sort = $_GET['Sort'];
+    }
+	if(empty($_GET['query']))
+    {
+		$query = null;
+    }
+    else
+    {
+		$query = $_GET['query'];		
+    }
+	if(empty($_GET['max_price']))
+    {
+		$highprice= intval($maximumprice);
+    }
+    else
+    {
+		$highprice = intval($_GET['max_price']);
+	if(highprice ===0){
+		$highprice = intval($maximumprice);
+	}
+    }
+	if(empty($_GET['min_price']))
+    {
+		$lowprice = intval($minimumprice);
+    }
+    else
+    {
+		$lowprice =intval($_GET['min_price']);		
+    }
+    // permalinks
+    function GetPermaLink($skip = 0)
+    {
+        $path = ltrim($_SERVER['REQUEST_URI'], '/');
+        $elements = explode('/', $path);
 
-    $statement  = $db->prepare("SELECT * FROM annons WHERE Email LIKE '%$email%' 
-                                AND Name LIKE '%$name%' 
-                                AND Title LIKE '%$title%'
-                                AND Category LIKE '%$category%'                              
-                                ORDER BY date DESC");
-                $statement ->bindParam(':email', $email);
-                $statement ->execute();
-            	
-                while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-        $id = "annons.php/?id=".$row['ID'];
-        echo "<tr>";
-        echo "<td><a href='{$id}'>{$row['title']}</a></td>";
-                    echo "<td>{$row['email']}</td>";
-                    echo '<td>'.$row['telnr'].'</td>';
-                    echo '<td>'.$row['name'].'</td>';
-                    echo '<td>'.$row['category'].'</td>';
-                    echo '<td>'.$row['description'].'</td>';
-                    echo '<td>'.$row['picture'].'</td>';
-                    echo '<td>'.$row['price'].'</td>';
-                    echo '<td>'.$row['date'].'</td>';
-                }
+        if(empty($elements[0]))
+        {
+            return null;
+        }
+        else
+        {
+            for($i=0; $i< $skip;$i++)
+                array_shift($elements);
 
-                echo ("</tr>");
-                ?>
-            </table>
+            $req = array_shift($elements);
+            return strtolower($req);
+        }
+    }
+
+?>
+<html>
+<head>
+
+</head>
+
+<body class="h-100 mh-100">
+<header id="header">
+
+    <div class="max">
+        <div class="logo">
+            <h1><a href="/teamproject3/">Plocket</a></h1>
         </div>
-        <div class="well">
-        <footer> footer</footer>
+
+        <form class="search" action="index.PHP" method="GET">
+
+            <input class="searchTerm" type="search" name="query" placeholder="Search for something">
+
+            <input class="searchButton" type="submit">
+
+
+            <input type="hidden" name="category" value="<?php echo $category?>">
+            <input type="hidden" name="email" value="<?php echo $email?>">
+            <input type="hidden" name="sort" value="<?php echo $sort?>">
+            <input type="hidden" name="sortby" value="<?php echo $sortby?>">
+        </form>
+        <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="add.php"> Add</a></nav>
+    </div>
+</header>
+
+    <div id="main">
+
+<<<<<<< HEAD
+=======
+					<input type="hidden" name="category" value="<?php echo $category?>">
+                    <input type="hidden" name="email" value="<?php echo $email?>">
+					<input type="hidden" name="sort" value="<?php echo $sort?>">
+                </form>
+                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
+            </div>
+        </header>
+>>>>>>> origin/Feature_Search
+
+        <div class="sidebar">
+		
+            <a href="index.PHP?category=Fordon">Fordon</a><br>
+            <a href="index.PHP?category=För Hemmet">För Hemmet</a><br>
+            <a href="index.PHP?category=Personligt">Personligt</a><br>
+            <a href="index.PHP?category=Elektronik">Elektronik</a><br>
+            <a href="index.PHP?category=Fritid Och Hobby">Fritid Och Hobby</a><br>
+            <a href="index.PHP?category=Affärsverksamhet">Affärsverksamhet</a><br>
+			
+		<form class="sort" action="index.PHP" method="GET">
+		
+		Från <input type="text" name="min_price" size=6> Sek till <input type="text" name="max_price" size=6> Sek
+		 
+		<select name="Sort">
+			<option value="high"<?php if ($sort === "high") echo 'selected="selected"';?>>Högsta Pris</option>
+			<option value="low"<?php if ($sort === "low") echo 'selected="selected"';?>>Lägsta Pris</option>
+			<option value="new"<?php if ($sort === "new") echo 'selected="selected"';?>>Nyast</option>
+			<option value="old"<?php if ($sort === "old") echo 'selected="selected"';?>>Äldst</option>
+        </select>
+		
+		<input type="hidden" name="category" value="<?php echo $category?>">
+        <input type="hidden" name="email" value="<?php echo $email?>">
+		<input type="hidden" name="query" value="<?php echo $query?>">
+            <button type="submit">Sort</button>
+		</form>
         </div>
-    </div>	
-</div>
+
+
+        <div id="content-small">
+
+                    <?php
+					
+                    if(isset($_GET['query']))
+                    {
+                        $query = $_GET['query'];
+                    }
+                    else
+                    {
+                        $query = null;
+                    }
+
+                    if(isset($_GET['title']))
+                    {
+                        $title = $_GET['title'];
+
+                    }
+                    else
+                    {
+                        $title = null;
+                    }
+
+                    if(isset($_GET['category']))
+                    {
+                        $category = $_GET['category'];
+                    }
+                    else
+                    {
+                        $category = null;
+                    }
+					
+					if(isset($_GET['Sort'])){
+						$sort = $_GET['Sort'];
+					}
+					else{
+						$sort = null;
+					}
+					if(isset($_GET['max_price'])){
+							$highprice = intval($_GET['max_price']);
+						if($highprice ===0){
+						$highprice = intval($maximumprice);
+					}								
+					}
+					else{
+							$highprice= intval($maximumprice);
+					}
+					if(isset($_GET['min_price'])){
+						$lowprice = intval($_GET['min_price']);	
+					}
+					else{
+						$lowprice = intval($minimumprice);
+					}
+					
+                    if($sort=='high'){
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+<<<<<<< HEAD
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY price ASC ");
+
+=======
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
+                                                          ORDER BY price DESC ");
+						$statement ->execute();
+>>>>>>> origin/Feature_Search
+					}
+					else if($sort=='low'){
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+<<<<<<< HEAD
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY date DESC ");
+
+=======
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
+                                                          ORDER BY price ASC ");
+						$statement ->execute();
+>>>>>>> origin/Feature_Search
+					}
+					else if($sort=='new'){
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+<<<<<<< HEAD
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY date ASC ");
+
+=======
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%') AND price BETWEEN '$lowprice' AND '$highprice'  
+                                                          ORDER BY date DESC ");
+                    $statement ->execute();
+>>>>>>> origin/Feature_Search
+					
+					}
+					else if($sort=='old'){
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+<<<<<<< HEAD
+                                                          AND Category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          ORDER BY price DESC ");
+
+=======
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
+                                                          ORDER BY Date ASC ");
+                    $statement ->execute();
+>>>>>>> origin/Feature_Search
+					
+					}
+					else{
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
+                                                          ORDER BY date DESC ");
+<<<<<<< HEAD
+
+					}
+                    $statement ->bindParam(':sortby', $sortby);
+                    $statement ->bindParam(':sort', $sort);
+=======
+>>>>>>> origin/Feature_Search
+                    $statement ->execute();
+				while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+					$id = "annons.php?id=".$row['ID'];
+                        echo"
+                            <div class='article'>
+                                <div class='row'>
+                                    <div class='col'>
+                                    Title
+                                    </div>
+                                    <div class='col'>
+                                    Picture
+                                    </div>
+                                    <div class='col'>
+                                    Price
+                                    </div>
+                                    <div class='col'>
+                                    Date Of Upload
+                                    </div>
+                                </div>
+                            <hr>
+                                <div class='row'>                                
+                                    <div class='col'>
+                                        <a href='{$id}'>{$row['title']}</a>
+                                    </div>
+                                    <div class='col'>
+                                        png.jpg
+                                    </div>
+                                    <div class='col'>
+                                        {$row['price']}
+                                    </div>
+                                    <div class='col'>
+                                        {$row['date']}
+                                    </div>
+                                </div>							
+						    </div>
+							";
+				}?>
+
+        </div>
 
 
 
-<a href="add.php">Add Item</a>
+    </div>
+
+
+
 </body>
+<footer class="bottom"> footer</footer>
+</html>

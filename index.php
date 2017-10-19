@@ -4,9 +4,17 @@
 <?php $db = new PDO('mysql:host=localhost;dbname=annonser;charset=utf8mb4','root', '');?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="sliderstyle.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 <?php
+	
+	$gid = $db->prepare("SELECT MAX(price) as max_price, MIN(price) as min_price FROM annons");
+	$gid->execute();
+	$row = $gid->fetch(PDO::FETCH_ASSOC);
+	
+	$maximumprice=$row["max_price"]+1;
+	$minimumprice=$row["min_price"];
 
     if(empty($_GET['email'])){
         $email=null;}
@@ -25,12 +33,6 @@
     else{
         $sort = $_GET['Sort'];
     }
-	if(empty($_GET['Sortby'])){
-        $sortby = null;
-    }
-    else{
-        $sortby = $_GET['Sortby'];
-    }
 	if(empty($_GET['query']))
     {
 		$query = null;
@@ -38,6 +40,25 @@
     else
     {
 		$query = $_GET['query'];		
+    }
+	if(empty($_GET['max_price']))
+    {
+		$highprice= intval($maximumprice);
+    }
+    else
+    {
+		$highprice = intval($_GET['max_price']);
+	if(highprice ===0){
+		$highprice = intval($maximumprice);
+	}
+    }
+	if(empty($_GET['min_price']))
+    {
+		$lowprice = intval($minimumprice);
+    }
+    else
+    {
+		$lowprice =intval($_GET['min_price']);		
     }
     // permalinks
     function GetPermaLink($skip = 0)
@@ -93,6 +114,7 @@
 
 
         <div class="sidebar">
+		
             <a href="index.PHP?category=Fordon">Fordon</a><br>
             <a href="index.PHP?category=För Hemmet">För Hemmet</a><br>
             <a href="index.PHP?category=Personligt">Personligt</a><br>
@@ -102,13 +124,13 @@
 			
 		<form class="sort" action="index.PHP" method="GET">
 		
+		Från <input type="text" name="min_price" size=6> Sek till <input type="text" name="max_price" size=6> Sek
+		 
 		<select name="Sort">
-			<option value="ASC">Ascending</option>
-			<option value="DESC">Descending</option>
-        </select>
-		<select name="Sortby">
-            <option value="price">Price</option>
-             <option value="date">Date</option>
+			<option value="high"<?php if ($sort === "high") echo 'selected="selected"';?>>Högsta Pris</option>
+			<option value="low"<?php if ($sort === "low") echo 'selected="selected"';?>>Lägsta Pris</option>
+			<option value="new"<?php if ($sort === "new") echo 'selected="selected"';?>>Nyast</option>
+			<option value="old"<?php if ($sort === "old") echo 'selected="selected"';?>>Äldst</option>
         </select>
 		
 		<input type="hidden" name="category" value="<?php echo $category?>">
@@ -122,7 +144,7 @@
         <div id="content-small">
 
                     <?php
-
+					
                     if(isset($_GET['query']))
                     {
                         $query = $_GET['query'];
@@ -157,54 +179,61 @@
 					else{
 						$sort = null;
 					}
-					
-					if(isset($_GET['Sortby'])){
-						$sortby = $_GET['Sortby'];
+					if(isset($_GET['max_price'])){
+							$highprice = intval($_GET['max_price']);
+						if($highprice ===0){
+						$highprice = intval($maximumprice);
+					}								
 					}
 					else{
-						$sortby = null;
-			    	}
-
+							$highprice= intval($maximumprice);
+					}
+					if(isset($_GET['min_price'])){
+						$lowprice = intval($_GET['min_price']);	
+					}
+					else{
+						$lowprice = intval($minimumprice);
+					}
 					
-                    if($sort==='ASC' && $sortby==='price'){
+                    if($sort=='high'){
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
+                                                          ORDER BY price DESC ");
+
+					}
+					else if($sort=='low'){
+						$statement  = $db->prepare("SELECT * FROM annons 
+                                                          WHERE Email LIKE '%$email%' 
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
                                                           ORDER BY price ASC ");
 
 					}
-					else if($sort==='DESC' && $sortby==='date'){
+					else if($sort=='new'){
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%') AND price BETWEEN '$lowprice' AND '$highprice'  
                                                           ORDER BY date DESC ");
-
-					}
-					else if($sort==='ASC' && $sortby==='date'){
-						$statement  = $db->prepare("SELECT * FROM annons 
-                                                          WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY date ASC ");
 
 					
 					}
-					else if($sort==='DESC' && $sortby==='price'){
+					else if($sort=='old'){
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
-                                                          ORDER BY price DESC ");
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
+                                                          ORDER BY Date ASC ");
 
 					
 					}
 					else{
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
                                                           ORDER BY date DESC ");
 
 					}
