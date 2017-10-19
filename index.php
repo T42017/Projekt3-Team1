@@ -104,7 +104,6 @@
 					<input type="hidden" name="category" value="<?php echo $category?>">
                     <input type="hidden" name="email" value="<?php echo $email?>">
 					<input type="hidden" name="sort" value="<?php echo $sort?>">
-					<input type="hidden" name="sortby" value="<?php echo $sortby?>">
                 </form>
                 <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
             </div>
@@ -141,8 +140,6 @@
         <div id="content-small">
 
                     <?php
-					var_dump($lowprice);
-					var_dump($highprice);
 					
                     if(isset($_GET['query']))
                     {
@@ -195,8 +192,6 @@
 					}
 					
                     if($sort=='high'){
-						var_dump($lowprice);
-					var_dump($highprice);
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND category LIKE '%$category%' 
@@ -205,8 +200,6 @@
 						$statement ->execute();
 					}
 					else if($sort=='low'){
-						var_dump($lowprice);
-					var_dump($highprice);
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND category LIKE '%$category%' 
@@ -215,8 +208,6 @@
 						$statement ->execute();
 					}
 					else if($sort=='new'){
-						var_dump($lowprice);
-					var_dump($highprice);
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND category LIKE '%$category%' 
@@ -226,8 +217,6 @@
 					
 					}
 					else if($sort=='old'){
-						var_dump($lowprice);
-					var_dump($highprice);
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND category LIKE '%$category%' 
@@ -237,8 +226,6 @@
 					
 					}
 					else{
-						var_dump($lowprice);
-					var_dump($highprice);
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
                                                           AND category LIKE '%$category%' 
