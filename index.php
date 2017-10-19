@@ -13,7 +13,7 @@
 	$gid->execute();
 	$row = $gid->fetch(PDO::FETCH_ASSOC);
 	
-	$maximumprice=$row["max_price"];
+	$maximumprice=$row["max_price"]+1;
 	$minimumprice=$row["min_price"];
 
     if(empty($_GET['email'])){
@@ -47,7 +47,10 @@
     }
     else
     {
-		$highprice = intval($_GET['max_price']);		
+		$highprice = intval($_GET['max_price']);
+	if(highprice ===0){
+		$highprice = intval($maximumprice);
+	}
     }
 	if(empty($_GET['min_price']))
     {
@@ -138,7 +141,9 @@
         <div id="content-small">
 
                     <?php
-
+					var_dump($lowprice);
+					var_dump($highprice);
+					
                     if(isset($_GET['query']))
                     {
                         $query = $_GET['query'];
@@ -174,7 +179,10 @@
 						$sort = null;
 					}
 					if(isset($_GET['max_price'])){
-							$highprice = intval($_GET['max_price']);	
+							$highprice = intval($_GET['max_price']);
+						if($highprice ===0){
+						$highprice = intval($maximumprice);
+					}								
 					}
 					else{
 							$highprice= intval($maximumprice);
@@ -186,46 +194,54 @@
 						$lowprice = intval($minimumprice);
 					}
 					
-					var_dump($lowprice);
+                    if($sort=='high'){
+						var_dump($lowprice);
 					var_dump($highprice);
-                    if($sort==='high'){
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
+                                                          AND category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
                                                           ORDER BY price DESC ");
 						$statement ->execute();
 					}
-					else if($sort==='low'){
+					else if($sort=='low'){
+						var_dump($lowprice);
+					var_dump($highprice);
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
+                                                          AND category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
                                                           ORDER BY price ASC ");
 						$statement ->execute();
 					}
-					else if($sort==='new'){
+					else if($sort=='new'){
+						var_dump($lowprice);
+					var_dump($highprice);
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
-                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%')AND price BETWEEN '$lowprice' AND '$highprice'  
+                                                          AND category LIKE '%$category%' 
+                                                          AND (title LIKE '%$query%' OR name LIKE '%$query%') AND price BETWEEN '$lowprice' AND '$highprice'  
                                                           ORDER BY date DESC ");
                     $statement ->execute();
 					
 					}
-					else if($sort==='old'){
+					else if($sort=='old'){
+						var_dump($lowprice);
+					var_dump($highprice);
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
+                                                          AND category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
                                                           ORDER BY Date ASC ");
                     $statement ->execute();
 					
 					}
 					else{
+						var_dump($lowprice);
+					var_dump($highprice);
 						$statement  = $db->prepare("SELECT * FROM annons 
                                                           WHERE Email LIKE '%$email%' 
-                                                          AND Category LIKE '%$category%' 
+                                                          AND category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  AND price BETWEEN '$lowprice' AND '$highprice'
                                                           ORDER BY date DESC ");
                     $statement ->execute();
