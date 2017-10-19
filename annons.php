@@ -27,22 +27,23 @@ function GetPermaLink($skip = 0)
     }
 }
 ?>
-
+<html>
 
 <body>
+<div id="header">
+
+    <div class="max">
+        <div class="logo">
+            <h1><a href="/teamproject3/">Plocket</a></h1>
+        </div>
+
+
+        <nav class="section" id="nav"><a href="Login.PHP"> Login </a>  <a href="add.php"> Add</a></nav>
+    </div>
+</div>
 <div id="main">
 
-    <div id="header">
 
-        <div class="max">
-            <div class="logo">
-                <h1><a href="/teamproject3/">Plocket</a></h1>
-            </div>
-
-
-            <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
-        </div>
-    </div>
 
     <div id="content-big">
         <?php
@@ -124,6 +125,9 @@ function GetPermaLink($skip = 0)
 
 
     </div>
-    <footer>footer</footer>
 </div>
+
+<footer class="fixed-bottom">footer</footer>
+
 </body>
+</html>

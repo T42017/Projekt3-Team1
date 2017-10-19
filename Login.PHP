@@ -20,20 +20,21 @@
 	    $password = $_POST['password'];
 	}	
 ?>
+<html>
 <body>
+<header id="header">
 
+    <div class="max">
+        <div class="logo">
+            <h1><a href="/teamproject3/">Plocket</a></h1>
+        </div>
+
+
+        <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="add.php"> Add</a></nav>
+    </div>
+</header>
     <div id="main">
-        <header id="header">
 
-            <div class="max">
-                <div class="logo">
-                    <h1><a href="/teamproject3/">Plocket</a></h1>
-                </div>
-
-
-                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
-            </div>
-        </header>
 
         <div id="content-big">
             <div class="article">
@@ -156,6 +157,9 @@
                  ?>
 		
          </div>
-         <footer> footer </footer>
     </div>
+
+<footer class="fixed-bottom"> footer </footer>
+
 </body>
+</html>

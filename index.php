@@ -60,34 +60,37 @@
     }
 
 ?>
+<html>
 <head>
 
 </head>
 
-<body>
+<body class="h-100 mh-100">
+<header id="header">
+
+    <div class="max">
+        <div class="logo">
+            <h1><a href="/teamproject3/">Plocket</a></h1>
+        </div>
+
+        <form class="search" action="index.PHP" method="GET">
+
+            <input class="searchTerm" type="search" name="query" placeholder="Search for something">
+
+            <input class="searchButton" type="submit">
+
+
+            <input type="hidden" name="category" value="<?php echo $category?>">
+            <input type="hidden" name="email" value="<?php echo $email?>">
+            <input type="hidden" name="sort" value="<?php echo $sort?>">
+            <input type="hidden" name="sortby" value="<?php echo $sortby?>">
+        </form>
+        <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="add.php"> Add</a></nav>
+    </div>
+</header>
+
     <div id="main">
-        <header id="header">
 
-            <div class="max">
-                <div class="logo">
-                    <h1><a href="/teamproject3/">Plocket</a></h1>
-                </div>
-
-                <form class="search" action="index.PHP" method="GET">
-
-                    <input class="searchTerm" type="search" name="query" placeholder="Search for something">
-
-                    <input class="searchButton" type="submit">
-
-
-					<input type="hidden" name="category" value="<?php echo $category?>">
-                    <input type="hidden" name="email" value="<?php echo $email?>">
-					<input type="hidden" name="sort" value="<?php echo $sort?>">
-					<input type="hidden" name="sortby" value="<?php echo $sortby?>">
-                </form>
-                <nav class="section" id="nav"><a href="Login.PHP"> Login </a> <a href="#"> Page </a> <a href="add.php"> Add</a></nav>
-            </div>
-        </header>
 
         <div class="sidebar">
             <a href="index.PHP?category=Fordon">Fordon</a><br>
@@ -169,9 +172,7 @@
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
                                                           ORDER BY price ASC ");
-						$statement ->bindParam(':sortby', $sortby);
-						$statement ->bindParam(':sort', $sort);
-						$statement ->execute();
+
 					}
 					else if($sort==='DESC' && $sortby==='date'){
 						$statement  = $db->prepare("SELECT * FROM annons 
@@ -179,9 +180,7 @@
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
                                                           ORDER BY date DESC ");
-						$statement ->bindParam(':sortby', $sortby);
-						$statement ->bindParam(':sort', $sort);
-						$statement ->execute();
+
 					}
 					else if($sort==='ASC' && $sortby==='date'){
 						$statement  = $db->prepare("SELECT * FROM annons 
@@ -189,9 +188,7 @@
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
                                                           ORDER BY date ASC ");
-                    $statement ->bindParam(':sortby', $sortby);
-					$statement ->bindParam(':sort', $sort);
-                    $statement ->execute();
+
 					
 					}
 					else if($sort==='DESC' && $sortby==='price'){
@@ -200,9 +197,7 @@
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
                                                           ORDER BY price DESC ");
-                    $statement ->bindParam(':sortby', $sortby);
-					$statement ->bindParam(':sort', $sort);
-                    $statement ->execute();
+
 					
 					}
 					else{
@@ -211,11 +206,11 @@
                                                           AND Category LIKE '%$category%' 
                                                           AND (title LIKE '%$query%' OR name LIKE '%$query%')  
                                                           ORDER BY date DESC ");
-                    $statement ->bindParam(':sortby', $sortby);
-					$statement ->bindParam(':sort', $sort);
-                    $statement ->execute();
+
 					}
-					
+                    $statement ->bindParam(':sortby', $sortby);
+                    $statement ->bindParam(':sort', $sort);
+                    $statement ->execute();
 				while($row = $statement->fetch(PDO::FETCH_ASSOC)){
 					$id = "annons.php?id=".$row['ID'];
                         echo"
@@ -255,8 +250,12 @@
 
         </div>
 
-        <footer> footer</footer>
+
 
     </div>
+
+
+
 </body>
+<footer class="bottom"> footer</footer>
 </html>
