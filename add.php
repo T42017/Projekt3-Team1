@@ -85,7 +85,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                                 <input name="desc" type="text" pattern="[a-zA-Z0-9_- ]+" required>
                             </div>
                             <div class="col">
-                                <input name="price" type="text"pattern="[0-9,. +" required>
+                                <input name="price" type="text"pattern="[0-9]+" required>
                             </div>
 
                         </div>

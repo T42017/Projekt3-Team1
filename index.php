@@ -48,7 +48,7 @@
     else
     {
 		$highprice = intval($_GET['max_price']);
-	if(highprice ===0){
+	if($highprice ===0){
 		$highprice = intval($maximumprice);
 	}
     }

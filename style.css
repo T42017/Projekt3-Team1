@@ -11,7 +11,7 @@ html{
 
 #content-small{
 	float:right;
-    width: 60%;
+    width: 50%;
 	margin-top: 10%;
 	height:100%;
 	border:2px solid black;
@@ -194,7 +194,7 @@ footer{
 }
 
 .sidebar{
-	width: 20%;
+	width: 30%;
     border: 3px solid grey;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
     padding: 25px;
